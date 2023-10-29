@@ -10,7 +10,7 @@ assignees: ''
 ## ⚙️ DevOps
 
 <!--
-    What is the DevOps process you would like to see in the project AAAAAA?
+    What is the DevOps process you would like to see in the project?
 -->
 
 (Write your description here)
@@ -18,7 +18,7 @@ assignees: ''
 ### Motivation
 
 <!--
-    Why should this DevOps process be implemented in the project AAAAAA?
+    Why should this DevOps process be implemented in the project?
     Is this feature request related to a problem? If so, please describe.
     Please link to any relevant issues or other PRs!
 -->
@@ -28,7 +28,7 @@ assignees: ''
 ### Implementation
 
 <!--
-    What needs to be built for the DevOps process to be available in the project AAAAAA?
+    What needs to be built for the DevOps process to be available in the project?
     How should this feature be implemented?
 -->
 
