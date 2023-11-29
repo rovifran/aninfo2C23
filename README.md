@@ -21,7 +21,6 @@ Para poder jugar al Truco en tu computadora, se deben seguir estos pasos:
    ```   
 ## Como correr el proyecto
 Clona este repositorio en tu máquina:
-
 ```bash
 git clone git@github.com:rovifran/aninfo2C23.git
 ```
@@ -30,10 +29,16 @@ Navega al directorio del proyecto:
 ```bash
 cd aninfo2C23
 ```
+### Linux/iOS
 Ejecuta el juego:
 
 ```bash
 python3 truco.py
+```
+### Windows
+
+```bash
+python truco.py
 ```
 
 ## Problemas conocidos
