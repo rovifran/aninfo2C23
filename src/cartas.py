@@ -1,5 +1,4 @@
 from typing import Tuple
-from enum import Enum
 import pygame
 import os
 
@@ -63,8 +62,21 @@ class _Carta:
         self.numero = numero
         self.palo = palo
         self._prioridad = prioridad
-        print(CUR_DIR + '/cartas/' + ruta_imagen)
         self.imagen = pygame.image.load(CUR_DIR + '/cartas/' + ruta_imagen)
+
+
+    def __str__(self) -> str:
+        """
+        Devuelve una representacion en string de la carta, para que sea mas facil de leer
+        """
+        return f'{self.numero} de {self.palo}'
+
+    def __repr__(self) -> str:
+        """
+        Identico a __str__ pero para las estructuras que llaman a __repr__ en vez de __str__
+        """
+        return f'{self.numero} de {self.palo}'
+
 
     def mostrar_imagen(self) -> pygame.Surface:
         """
