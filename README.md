@@ -27,7 +27,7 @@ git clone git@github.com:rovifran/aninfo2C23.git
 Navega al directorio del proyecto:
 
 ```bash
-cd aninfo2C23
+cd aninfo2C23/src
 ```
 ### Linux/iOS
 Ejecuta el juego:
@@ -39,6 +39,17 @@ python3 truco.py
 
 ```bash
 python truco.py
+```
+
+## Pruebas
+El proyecto tiene pruebas que se ejecutan estando en el directorio `src`, con el comando:
+### Linux
+```bash
+python3 -m tests.tests_<nombre del modulo>
+```
+### Windows
+```bash
+python -m tests.tests_<nombre del modulo>
 ```
 
 ## Problemas conocidos

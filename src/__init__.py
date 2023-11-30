@@ -1,2 +1,2 @@
 from .mazo import *
-from .cartas import *
+from .img_cartas import *

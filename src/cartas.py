@@ -62,7 +62,7 @@ class _Carta:
         self.numero = numero
         self.palo = palo
         self._prioridad = prioridad
-        self.imagen = pygame.image.load(CUR_DIR + '/cartas/' + ruta_imagen)
+        self.imagen = pygame.image.load(CUR_DIR + '/img_cartas/' + ruta_imagen)
 
 
     def __str__(self) -> str:
@@ -77,6 +77,17 @@ class _Carta:
         """
         return f'{self.numero} de {self.palo}'
 
+    def __hash__(self):
+        """
+        Devuelve un hash de la carta, para que se pueda usar como clave en un diccionario
+
+        Precondiciones:
+        * La carta es inmutable
+
+        Postcondiciones:
+        * Devuelve un hash de la carta
+        """
+        return hash(str(self))
 
     def mostrar_imagen(self) -> pygame.Surface:
         """

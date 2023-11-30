@@ -1,7 +1,8 @@
+import random
+
 from cartas import *
 from typing import Tuple, List
 
-import random
 
 class Mazo():
     """
@@ -99,8 +100,9 @@ res = timeit.timeit(stmt=cmd, setup="from __main__ import Mazo", number=100)
 print(res)
 """
 
-
+""" 
 mazo = Mazo()
 
 for i in range(10):
     print(f"Mano {i}: {mazo.mezclar_y_repartir()}")
+ """
