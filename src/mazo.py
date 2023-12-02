@@ -7,7 +7,7 @@ from typing import Tuple, List
 class Mazo():
     """
     Clase que representa un mazo de cartas españolas para jugar al Truco
-    Es la encaregada de instanciar las 40 cartas del mazo, asio como también de mezclarlas y repartirlas
+    Es la encaregada de instanciar las 40 cartas del mazo, asi como también de mezclarlas y repartirlas
 
     Atributos:
         - cartas: Es una lista que contiene las instancias de las 40 cartas del mazo
