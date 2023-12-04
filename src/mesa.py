@@ -67,10 +67,9 @@ class Mesa:
         
         if carta1 > carta2:
             return jugador1
-        elif carta1 < carta2:
+        if carta1 < carta2:
             return jugador2
-        else:
-            return None
+        return None
 
     def getGanador(self):
         """
