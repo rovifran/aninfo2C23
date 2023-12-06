@@ -1,4 +1,4 @@
-from src import cartas
+import cartas
 
 class Jugador:
     """
