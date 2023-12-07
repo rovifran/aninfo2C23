@@ -1,4 +1,4 @@
-from src import cartas
+import cartas
 
 class Jugador:
     """
@@ -34,4 +34,7 @@ class Jugador:
     Devuelve True si los tiene, False en caso contrario.
     """
     def gano(self, max_puntos) -> bool:
-        return self.puntos >= max_puntos        
+        return self.puntos >= max_puntos
+    
+    def __str__(self):
+        return self.personaje

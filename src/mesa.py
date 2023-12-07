@@ -43,7 +43,12 @@ class Mesa:
         [][][]
         [][][]
         1 0 1
+
+
+        [[c1,c2][c4,c3][]] #las sublistas estarian ordenadas para graficar arriba la mas grande
         """
+
+
         self.mano_actual.append((carta, jugador))
         if len(self.mano_actual) == 2:
             self.ganador = self.compararCartas()
