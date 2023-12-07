@@ -14,10 +14,10 @@ class Mesa:
     def __init__(self):
         self.mano_actual = []
         self.jugadores = []
-        self.cartas_jugadas = []
-        self.ganador = None
+        self.cartas_jugadas = [[]]
+        self.ganador_mano = None
         
-
+ 
     def recibirCarta(self, carta, jugador):
         """
         Recibe la carta jugada por el jugador y la agrega a la mesa.
@@ -47,15 +47,31 @@ class Mesa:
 
         [[c1,c2][c4,c3][]] #las sublistas estarian ordenadas para graficar arriba la mas grande
         """
-
-
-        self.mano_actual.append((carta, jugador))
-        if len(self.mano_actual) == 2:
-            self.ganador = self.compararCartas()
+        
+        # self.cartas_jugadas.append(self.mano_actual)
+        
+        if len(self.mano_actual) > 0:
+            self.mano_actual.append((carta, jugador))
+            self.ganador_mano = self.compararCartas()
+            self.cartas_jugadas.append([])
             self.mano_actual = []
-            
+            return
 
-        self.cartas_jugadas.append(carta)
+        for mano in self.cartas_jugadas:
+            if len(mano) == 0:
+                mano.append((carta, jugador))
+                self.mano_actual = mano
+                break
+            
+            # if len(mano) == 1:
+                
+            #     self.mano_actual = mano
+            #     self.ganador_mano = self.compararCartas()
+            #     self.mano_actual = []
+            #     break
+
+        print("cartas jugadas")
+        print(self.cartas_jugadas)
 
     def manoActualEstaCompleta(self):
         """
@@ -86,6 +102,7 @@ class Mesa:
         if carta1 > carta2:
             return jugador1
         if carta1 < carta2:
+            self.mano_actual[0], self.mano_actual[1] = self.mano_actual[1], self.mano_actual[0]
             return jugador2
         return None
 
@@ -98,4 +115,4 @@ class Mesa:
         PostCondiciones:
             - Se devuelve el ganador de la mano
         """
-        return self.ganador
+        return self.ganador_mano

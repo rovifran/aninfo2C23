@@ -62,7 +62,7 @@ class _Carta:
         self.numero = numero
         self.palo = palo
         self._prioridad = prioridad
-        self.imagen = pygame.image.load(CUR_DIR + '/src/img_cartas/' + ruta_imagen)
+        self.imagen = pygame.image.load(CUR_DIR + '/img_cartas/' + ruta_imagen)
 
 
     def __str__(self) -> str:
