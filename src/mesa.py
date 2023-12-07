@@ -57,6 +57,19 @@ class Mesa:
 
         self.cartas_jugadas.append(carta)
 
+    def manoActualEstaCompleta(self):
+        """
+        Devuelve True si la mano actual esta completa, False en caso contrario.
+        Como la mano actual se resetea cada vez que hay 2 cartas en la mesa, una
+        forma de ver si esta completa la mano, es ver si la mano actual tiene 0 cartas
+        siempre que se llame este metodo despues de tirar una carta, nunca antes.
+        
+        Precondiciones:
+            - Se reciben 2 cartas por mano, una por cada jugador
+        PostCondiciones:
+            - Se devuelve True si la mano esta completa, False en caso contrario
+        """
+        return len(self.mano_actual) == 0
 
     def compararCartas(self):
         """
