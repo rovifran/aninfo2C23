@@ -47,8 +47,8 @@ def mostrar_cartas(jugador, es_oponente):
             pygame.draw.rect(PARTIDASURF, BLUE, cartas_en_mano_pos[i], 3)
 
 def mostrar_mesa(mesa, jugador_actual):
-    PARTIDASURF.blit(mesa_img, (mesa_pos.x, mesa_pos.y))
-    pygame.draw.rect(PARTIDASURF, BLUE, mesa_pos, 3)
+    pygame.draw.rect(PARTIDASURF, BLACK, mesa_pos, 3)
+    PARTIDASURF.blit(mesa_img, (mesa_pos.x+2, mesa_pos.y-2))
 
 
     for i in range(len(mesa.cartas_jugadas)):
@@ -97,6 +97,7 @@ def puntos_display(jugador_1, jugador_2):
 def botones_display():
     # Display y anuncio
     PARTIDASURF.blit(display, (SCREEN_WIDTH*(1-1/4), SCREEN_HEIGHT/25))
+    
     PARTIDASURF.blit(coto, (SCREEN_WIDTH*(1-1/4) + 10, SCREEN_HEIGHT*6/10))
     
     # Botones
@@ -130,11 +131,13 @@ def main():
     arrastrando_carta = False
     carta_seleccionada_surf = None
     carta_seleccionada = None
-
+    pos_original = None
     while True:
         if gano == True:
             break
         
+       
+
         if gano_ronda:
             gano_ronda = False
             print('Alguien gano la ronda xd') #CArtelito: X jugador gano!
@@ -167,6 +170,9 @@ def main():
 
             # drag cartas
             if event.type == pygame.MOUSEBUTTONDOWN:
+                print(f"cartas de {p1}: {p1.cartas} ")
+                print(f"cartas de {p2}: {p2.cartas} ")
+
                 card_down_sound.play()
                     
                 if not event.button == 1:
@@ -175,6 +181,7 @@ def main():
                 for i, carta in enumerate(jugador_actual.cartas):
                     if cartas_en_mano_pos[i].collidepoint(event.pos):
                         arrastrando_carta = True
+
                         carta_seleccionada_surf = cartas_en_mano_pos[i]
                         offset_x = pygame.mouse.get_pos()[0] - carta_seleccionada_surf.centerx
                         offset_y = pygame.mouse.get_pos()[1] - carta_seleccionada_surf.centery
@@ -208,12 +215,24 @@ def main():
 
                     if mesa_pos.collidepoint(event.pos):
                         partida.jugar_carta(carta_seleccionada)
-                        #cartas_en_mano_pos.remove(carta_seleccionada_surf)
+                        
                         index = cartas_en_mano_pos.index(carta_seleccionada_surf)
+                        
+                        cartas_en_mano_pos.remove(carta_seleccionada_surf)
+                        
+                        nueva_x = cartas_en_mano_pos_originales[index][0]
+                        nueva_y = cartas_en_mano_pos_originales[index][1]
+
+                        nueva = pygame.Rect(nueva_x, nueva_y, CARD_WIDTH, CARD_HEIGHT)
+
+                        cartas_en_mano_pos.insert(index, nueva)
+
+                        
+                        
                         print(f"se jugo {index} en mesa")
                         #cartas_en_mano_pos.remove(carta_seleccionada_surf)
-                                                
                         print(f"carta {carta_seleccionada} en mesa")
+
                         sleep(1)
                         hay_ganador_ronda = partida.hay_ganador_ronda()
                         if hay_ganador_ronda:

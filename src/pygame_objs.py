@@ -30,11 +30,17 @@ carta_en_mano_1_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*1, 
 carta_en_mano_2_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT*3/4, CARD_WIDTH, CARD_HEIGHT)
 carta_en_mano_3_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*(1-1/3), SCREEN_HEIGHT*3/4, CARD_WIDTH, CARD_HEIGHT)
 
+carta_en_mano_1_pos_og = (SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*1, SCREEN_HEIGHT*3/4)
+carta_en_mano_2_pos_og = (SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT*3/4)
+carta_en_mano_3_pos_og = (SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*(1-1/3), SCREEN_HEIGHT*3/4)
+
 carta_en_mano_1_pos_oponente = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*(2/3), SCREEN_HEIGHT/25, CARD_WIDTH, CARD_HEIGHT)
 carta_en_mano_2_pos_oponente = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT/25, CARD_WIDTH, CARD_HEIGHT)
 carta_en_mano_3_pos_oponente = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*(2/3), SCREEN_HEIGHT/25, CARD_WIDTH, CARD_HEIGHT)
 
 cartas_en_mano_pos = [carta_en_mano_1_pos, carta_en_mano_2_pos, carta_en_mano_3_pos]
+cartas_en_mano_pos_originales = [carta_en_mano_1_pos_og, carta_en_mano_2_pos_og, carta_en_mano_3_pos_og]
+
 cartas_en_mano_pos_oponente = [carta_en_mano_1_pos_oponente, carta_en_mano_2_pos_oponente, carta_en_mano_3_pos_oponente]
 
 # Mesa

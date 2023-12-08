@@ -22,7 +22,7 @@ def main_test_mazo():
     print("Corriendo tests de mazo...")
     test_1_mazo_se_instancia_correctamente()
     test_2_entre_dos_mazos_no_hay_repetidos()
-    print("Todos los tests de mazo pasaron exitosamente!")
+    print("\x1b[32mTodos los tests de mazo pasaron exitosamente!\x1b[0m")
 
 if __name__ == '__main__':
     main_test_mazo()

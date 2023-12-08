@@ -58,13 +58,20 @@ class Partida:
                 self.cambiar_turno()
 
     def iniciar_mano(self):
+        jugador_actual = self.jugador_actual
+        jugador_contrario = self.jugador_contrario
+
+        if self.jugador_mano == jugador_actual:
+            self.jugador_mano = jugador_contrario
+            self.cambiar_turno()
+        else:
+            self.jugador_mano = jugador_actual
+
         self.ganador_por_mano = []
         self.ganador_final_mano = None
 
-        self.jugador_mano = self.jugador_actual if self.jugador_mano == self.jugador_contrario else self.jugador_contrario
-
-        self.jugador_actual = self.jugador_mano
-        self.jugador_contrario = self.jugador_actual if self.jugador_mano == self.jugador_contrario else self.jugador_contrario
+        print("[JUGADOR ACTUAL]: ", self.jugador_actual.personaje)
+        print("[JUGADOR CONTRARIO]: ", self.jugador_contrario.personaje)
 
         self.mazo.mezclar()
         mano_j1, mano_j2 = self.mazo.repartir()
@@ -84,7 +91,6 @@ class Partida:
         return self.ganador_final_mano != None
 
     def definir_ganador(self):
-        print("[DEFINIR GANADOR]: El ganador segun la mano es: ", self.ganador_por_mano)
         def _triple_parda():
             return len(self.ganador_por_mano) == 3 and not self.jugador_actual in self.ganador_por_mano and not self.jugador_contrario in self.ganador_por_mano
 
@@ -108,7 +114,7 @@ class Partida:
 
         if _parda_solo_en_primera_mano():
             self.ganador_final_mano = self.ganador_por_mano[1]
-            return    
+            return
 
         if _mismo_ganador_primeras_dos_manos():
             self.ganador_final_mano = self.ganador_por_mano[0]
