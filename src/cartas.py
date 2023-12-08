@@ -62,7 +62,8 @@ class _Carta:
         self.numero = numero
         self.palo = palo
         self._prioridad = prioridad
-        self.imagen = pygame.image.load(CUR_DIR + '/img_cartas/' + ruta_imagen)
+        if ruta_imagen:
+            self.imagen = pygame.image.load(CUR_DIR + '/img_cartas/' + ruta_imagen)
 
 
     def __str__(self) -> str:
@@ -130,7 +131,7 @@ class AnchoDeEspada(_Carta):
     Subclase de _Carta que representa la carta Ancho de Espada.
     """
     
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Ancho de Espada con la ruta de la imagen y la prioridad
         correspondiente al Ancho de Espada
@@ -142,7 +143,7 @@ class AnchoDeBasto(_Carta):
     Subclase de _Carta que representa la carta Ancho de Basto.
     """
 
-    def __init__(self, ruta: str) -> None: 
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Ancho de Espada con la ruta de la imagen y la prioridad
         correspondiente al Ancho de Basto
@@ -154,7 +155,7 @@ class SieteDeEspada(_Carta):
     Subclase de _Carta que representa la carta Siete de Espada.
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Siete de Espada con la ruta de la imagen y la prioridad
         correspondiente al Siete de Espada
@@ -166,7 +167,7 @@ class SieteDeOro(_Carta):
     Subclase de _Carta que representa la carta Siete de Oro.
     """
     
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Siete de Oro con la ruta de la imagen y la prioridad
         correspondiente al Siete de Oro
@@ -178,7 +179,7 @@ class Tres(_Carta):
     Subclase de _Carta que representa las distintas cartas con el numero Tres.
     """
     
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Tres con la ruta de la imagen y la prioridad
         correspondiente al Tres.
@@ -190,7 +191,7 @@ class Dos(_Carta):
     Subclase de _Carta que representa las distintas cartas con el numero Dos.
     """
     
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Dos con la ruta de la imagen y la prioridad
         correspondiente al Dos.
@@ -201,7 +202,7 @@ class AnchoFalso(_Carta):
     """
     Subclase de _Carta que representa a los Anchos Falsos (Ancho de Oro y Ancho de Copa).
     """
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Ancho Falso con la ruta de la imagen y la prioridad
         correspondiente al Ancho Falso.
@@ -213,7 +214,7 @@ class Doce(_Carta):
     Subclase de _Carta que representa a las distintas cartas con el numero Doce.
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Doce con la ruta de la imagen y la prioridad
         correspondiente al Doce.
@@ -225,7 +226,7 @@ class Once(_Carta):
     Subclase de _Carta que representa a las distintas cartas con el numero Once.
     """
     
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Once con la ruta de la imagen y la prioridad
         correspondiente al Once.
@@ -237,7 +238,7 @@ class Diez(_Carta):
     Subclase de _Carta que representa a las distintas cartas con el numero Diez.
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Diez con la ruta de la imagen y la prioridad
         correspondiente al Diez.
@@ -249,7 +250,7 @@ class SieteFalso(_Carta):
     Subclase de _Carta que representa a los Sietes Falsos (Siete de Copa y Siete de Basto).
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Siete Falso con la ruta de la imagen y la prioridad
         correspondiente al Siete Falso.
@@ -261,7 +262,7 @@ class Seis(_Carta):
     Subclase de _Carta que representa a las distintas cartas con el numero Seis.
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Seis con la ruta de la imagen y la prioridad
         correspondiente al Seis.
@@ -273,7 +274,7 @@ class Cinco(_Carta):
     Subclase de _Carta que representa a las distintas cartas con el numero Cinco.
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Cinco con la ruta de la imagen y la prioridad
         correspondiente al Cinco.
@@ -285,7 +286,7 @@ class Cuatro(_Carta):
     Subclase de _Carta que representa a las distintas cartas con el numero Cuatro.
     """
 
-    def __init__(self, ruta: str) -> None:
+    def __init__(self, ruta: str = None) -> None:
         """
         Inicializa una carta Cuatro con la ruta de la imagen y la prioridad
         correspondiente al Cuatro.

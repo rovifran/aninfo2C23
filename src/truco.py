@@ -226,7 +226,6 @@ def main():
                         nueva = pygame.Rect(nueva_x, nueva_y, CARD_WIDTH, CARD_HEIGHT)
 
                         cartas_en_mano_pos.insert(index, nueva)
-
                         
                         
                         print(f"se jugo {index} en mesa")
