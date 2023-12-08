@@ -38,3 +38,6 @@ class Jugador:
     
     def __str__(self):
         return self.personaje
+    
+    def __repr__(self):
+        return self.personaje

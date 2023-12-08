@@ -30,19 +30,25 @@ carta_en_mano_1_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*1, 
 carta_en_mano_2_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT*3/4, CARD_WIDTH, CARD_HEIGHT)
 carta_en_mano_3_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*(1-1/3), SCREEN_HEIGHT*3/4, CARD_WIDTH, CARD_HEIGHT)
 
+carta_en_mano_1_pos_og = (SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*1, SCREEN_HEIGHT*3/4)
+carta_en_mano_2_pos_og = (SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT*3/4)
+carta_en_mano_3_pos_og = (SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*(1-1/3), SCREEN_HEIGHT*3/4)
+
 carta_en_mano_1_pos_oponente = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*(2/3), SCREEN_HEIGHT/25, CARD_WIDTH, CARD_HEIGHT)
 carta_en_mano_2_pos_oponente = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT/25, CARD_WIDTH, CARD_HEIGHT)
 carta_en_mano_3_pos_oponente = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*(2/3), SCREEN_HEIGHT/25, CARD_WIDTH, CARD_HEIGHT)
 
 cartas_en_mano_pos = [carta_en_mano_1_pos, carta_en_mano_2_pos, carta_en_mano_3_pos]
+cartas_en_mano_pos_originales = [carta_en_mano_1_pos_og, carta_en_mano_2_pos_og, carta_en_mano_3_pos_og]
+
 cartas_en_mano_pos_oponente = [carta_en_mano_1_pos_oponente, carta_en_mano_2_pos_oponente, carta_en_mano_3_pos_oponente]
 
 # Mesa
 mesa_pos = pygame.Rect(SCREEN_WIDTH/3, SCREEN_HEIGHT*(1/3 - 1/10), SCREEN_WIDTH/3, SCREEN_HEIGHT/2)
 
-carta_en_mesa_1_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*1.2, SCREEN_HEIGHT/2 - CARD_HEIGHT/3, CARD_WIDTH, CARD_HEIGHT)
-carta_en_mesa_2_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT/2 - CARD_HEIGHT/3, CARD_WIDTH, CARD_HEIGHT)
-carta_en_mesa_3_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*1.2, SCREEN_HEIGHT/2 - CARD_HEIGHT/3, CARD_WIDTH, CARD_HEIGHT)
+carta_en_mesa_1_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 - CARD_WIDTH*1.2, SCREEN_HEIGHT/2 - CARD_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT)
+carta_en_mesa_2_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2, SCREEN_HEIGHT/2 - CARD_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT)
+carta_en_mesa_3_pos = pygame.Rect(SCREEN_WIDTH/2 - CARD_WIDTH/2 + CARD_WIDTH*1.2, SCREEN_HEIGHT/2 - CARD_HEIGHT/2, CARD_WIDTH, CARD_HEIGHT)
 
 cartas_en_mesa = [carta_en_mesa_1_pos, carta_en_mesa_2_pos, carta_en_mesa_3_pos]
 
@@ -54,6 +60,9 @@ quiero_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10
 no_quiero_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 200, BUTTON_WIDTH, BUTTON_HEIGHT)
 mazo_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 250, BUTTON_WIDTH, BUTTON_HEIGHT)
 salir_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 300, BUTTON_WIDTH, BUTTON_HEIGHT)
+
+turno_actual_cartel = pygame.Rect(SCREEN_WIDTH/25, SCREEN_HEIGHT - BUTTON_HEIGHT, BUTTON_WIDTH*1.6, BUTTON_HEIGHT)
+
 
 def render_boton(surf, boton, texto):
     pygame.draw.rect(surf, WHITE, boton, border_radius=10)
