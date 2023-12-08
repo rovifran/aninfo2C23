@@ -89,3 +89,15 @@ mesa_img = pygame.transform.scale(mesa_img, (SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
 coto = pygame.image.load("img/coto.png")
 coto = pygame.transform.scale(coto, (SCREEN_WIDTH/5, SCREEN_HEIGHT/3))  
 
+fosforos_1 = pygame.image.load("img/puntos/1.png")
+fosforos_1 = pygame.transform.scale(fosforos_1, (PICTURE_SIZE*3/4, PICTURE_SIZE*3/4))
+fosforos_2 = pygame.image.load("img/puntos/2.png")
+fosforos_2 = pygame.transform.scale(fosforos_2, (PICTURE_SIZE*3/4, PICTURE_SIZE*3/4))
+fosforos_3 = pygame.image.load("img/puntos/3.png")
+fosforos_3 = pygame.transform.scale(fosforos_3, (PICTURE_SIZE*3/4, PICTURE_SIZE*3/4))
+fosforos_4 = pygame.image.load("img/puntos/4.png")
+fosforos_4 = pygame.transform.scale(fosforos_4, (PICTURE_SIZE*3/4, PICTURE_SIZE*3/4))
+fosforos_5 = pygame.image.load("img/puntos/5.png")
+fosforos_5 = pygame.transform.scale(fosforos_5, (PICTURE_SIZE*3/4, PICTURE_SIZE*3/4))
+
+fosforos = [fosforos_1, fosforos_2, fosforos_3, fosforos_4, fosforos_5]
