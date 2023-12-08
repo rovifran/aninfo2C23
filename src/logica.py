@@ -97,6 +97,9 @@ class Partida:
         def _mismo_ganador_primeras_dos_manos():
             return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] == self.ganador_por_mano[1]
 
+        def _parda_solo_en_segunda_mano():
+            return self.ganador_por_mano[0] != None and self.ganador_por_mano[1] == None
+
         def _ganador_en_tercera_mano_por_todo_parda():
             return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] == None and self.ganador_por_mano[1] == None and self.ganador_por_mano[2] != None
         
@@ -115,19 +118,25 @@ class Partida:
         if _parda_solo_en_primera_mano():
             self.ganador_final_mano = self.ganador_por_mano[1]
             return
-
+          
+        if _triple_parda():
+            self.ganador_final_mano = self.jugador_mano
+            return    
+                 
+        if _parda_solo_en_segunda_mano():
+            self.ganador_final_mano = self.ganador_por_mano[0]
+            return
         if _mismo_ganador_primeras_dos_manos():
             self.ganador_final_mano = self.ganador_por_mano[0]
             return
         
-        if _triple_parda():
-            self.ganador_final_mano = self.jugador_mano
-            return    
-            
         if _ganador_en_tercera_mano_por_todo_parda() or _ganador_en_tercera_mano_sin_parda(): 
             self.ganador_final_mano = self.ganador_por_mano[2]
             return
         
         if _ganador_en_tercera_mano_por_parda():
             self.ganador_final_mano = self.ganador_por_mano[0]
+            return
+        
 
+        
