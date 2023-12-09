@@ -135,6 +135,8 @@ def main():
     carta_seleccionada = None
     pos_original = None
     se_puede_cantar_envido = True
+    re_canto_envido = False
+    envido_envido_cantado = False
     while True:
         if gano == True:
             break
@@ -170,12 +172,27 @@ def main():
             
             mostrar_cartel_turno(jugador_actual)
 
+
+
             if partida.envido_actual != None:
+                # Botones de envido
+                # draw a rect behin the buttons
+                pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
+                pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
                 render_boton(PARTIDASURF, envido_quiero_button_pos, 'Quiero')
                 render_boton(PARTIDASURF, envido_no_quiero_button_pos, 'No Quiero')
-                render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido')
-                render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido')
-                render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido')
+
+                if not envido_envido_cantado:
+                    render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido')
+                else: 
+                    render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido', color_boton=GRAY)
+                
+                if not re_canto_envido:
+                    render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido')
+                    render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido')
+                else:
+                    render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
+                    render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
 
                 
 
@@ -194,8 +211,7 @@ def main():
                     print("Canto envido")
                     se_puede_cantar_envido = False
                     partida.cantar_envido("ENVIDO")
-                    
-                    
+                
                 elif flor_button_pos.collidepoint(event.pos):
                     print("Canto flor")
                 elif quiero_button_pos.collidepoint(event.pos):
@@ -215,11 +231,27 @@ def main():
                     res.ganador.sumar_puntos(res.puntos_a_sumar)
                     print(res)
                     partida._resetear_envido()
-
                 elif envido_no_quiero_button_pos.collidepoint(event.pos):
                     print("No quiero envido")
-                    partida.envido_actual.rechazar_envido()
+                    puntos = partida.envido_actual.rechazar_envido()
+                    jugador_oponente.sumar_puntos(puntos)
                     partida._resetear_envido()
+                elif envido_real_envido_button_pos.collidepoint(event.pos):
+                    print("Real Envido")
+                    re_canto_envido = True
+                    partida.envido_actual.aceptar_envido()
+                    partida.cantar_envido("REALENVIDO")
+                if not re_canto_envido:
+                    if envido_envido_button_pos.collidepoint(event.pos):
+                        print("Envido")
+                        re_canto_envido = True
+                        partida.cantar_envido("ENVIDO")
+                    elif envido_falta_envido_button_pos.collidepoint(event.pos):
+                        print("Falta Envido")
+                        re_canto_envido = True
+                        partida.envido_actual.aceptar_envido()
+                        partida.cantar_envido("FALTAENVIDO")
+
                     
                 elif coto_boton.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
@@ -237,12 +269,10 @@ def main():
                         carta_seleccionada = jugador_actual.cartas[i]
                 
             elif event.type == pygame.MOUSEBUTTONUP:
-                
-
                 if not carta_seleccionada_surf: 
                     continue
                 
-                # Check si jugo una carga
+                # Check si jugo una carta
                 if event.button == 1:
                     card_up_sound.play()
 
@@ -269,7 +299,7 @@ def main():
                         #cartas_en_mano_pos.remove(carta_seleccionada_surf)
                         print(f"carta {carta_seleccionada} en mesa")
 
-                        sleep(1)
+                    
                         hay_ganador_ronda = partida.hay_ganador_ronda()
                         if hay_ganador_ronda:
                             gano_ronda = True

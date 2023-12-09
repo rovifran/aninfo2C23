@@ -75,7 +75,7 @@ def render_boton(surf, boton, texto, color_boton=WHITE):
     pygame.draw.rect(surf, color_boton, boton, border_radius=10)
     pygame.draw.rect(surf, BLACK, boton, 3, 10)
     
-    text_coords = (boton.x + boton.width/2 - 25, boton.y + boton.height/2 - 10)
+    text_coords = (boton.x + boton.width/2 - len(texto*4), boton.y + boton.height/2 - 10)
     surf.blit(button_font.render(texto, True, BLACK), text_coords)
 
 # Imagenes
