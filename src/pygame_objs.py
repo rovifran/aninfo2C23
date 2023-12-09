@@ -63,9 +63,16 @@ salir_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 
 
 turno_actual_cartel = pygame.Rect(SCREEN_WIDTH/25, SCREEN_HEIGHT - BUTTON_HEIGHT, BUTTON_WIDTH*1.6, BUTTON_HEIGHT)
 
+# Botones Envido
+envido_quiero_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH,SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_no_quiero_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_real_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 + BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_falta_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 + 2*BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
 
-def render_boton(surf, boton, texto):
-    pygame.draw.rect(surf, WHITE, boton, border_radius=10)
+
+def render_boton(surf, boton, texto, color_boton=WHITE):
+    pygame.draw.rect(surf, color_boton, boton, border_radius=10)
     pygame.draw.rect(surf, BLACK, boton, 3, 10)
     
     text_coords = (boton.x + boton.width/2 - 25, boton.y + boton.height/2 - 10)
@@ -88,4 +95,4 @@ mesa_img = pygame.transform.scale(mesa_img, (SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
 
 coto = pygame.image.load("img/coto.png")
 coto = pygame.transform.scale(coto, (SCREEN_WIDTH/5, SCREEN_HEIGHT/3))  
-
+coto_boton = pygame.Rect(SCREEN_WIDTH*(1-1/4) + 10, SCREEN_HEIGHT*6/10, SCREEN_WIDTH/5, SCREEN_HEIGHT/3)

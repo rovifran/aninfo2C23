@@ -63,7 +63,7 @@ class Partida:
     def cantar_envido(self, tipo_envido):
         if self.jugador_canto_envido == None:
             self.jugador_canto_envido = self.jugador_actual
-            self.envido = env.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido, self.max_puntos)
+            self.envido_actual = env.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido, self.max_puntos)
             self.cambiar_turno()
 
         else:
