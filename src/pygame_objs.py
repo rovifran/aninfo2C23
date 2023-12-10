@@ -87,12 +87,14 @@ def display_cartel_envido(surf, res_envido):
     perdedor = res_envido.perdedor
     puntos_ganador = res_envido.puntos_ganador
     puntos_perdedor = res_envido.puntos_perdedor
-    puntos_a_sumar = res_envido.puntos_a_sumar
     
     pygame.draw.rect(surf, WHITE, cartel_avisos)
+    pygame.draw.rect(surf, BLACK, cartel_avisos, 3, 10)
 
-    texto = f"{ganador.personaje} gano {puntos_a_sumar} puntos, {perdedor.personaje} perdio {puntos_a_sumar} puntos"    
-    print(texto)
+    texto_ganador = f"Tantos de {ganador.personaje}: {puntos_ganador},"
+    texto_perdeor = f"Tantos de {perdedor.personaje}: {puntos_perdedor}"    
+    surf.blit(button_font.render(texto_ganador, True, GREEN), (cartel_avisos.x + 10, cartel_avisos.y + 10))
+    surf.blit(button_font.render(texto_perdeor, True, RED), (cartel_avisos.x + 10, cartel_avisos.y + 10 + 20))
 
 # Imagenes
 fondo = pygame.image.load("img/fondo.jpg")

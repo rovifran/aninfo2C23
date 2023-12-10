@@ -219,8 +219,6 @@ def main():
                     render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
 
 
-                
-
             # drag cartas
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(f"cartas de {p1}: {p1.cartas} ")
@@ -252,31 +250,32 @@ def main():
                     print("Canto flor")
                 
                 elif mazo_button_pos.collidepoint(event.pos):
+                    display_cartel_envido(PARTIDASURF, res)
                     print("Mazo")
                 elif salir_button_pos.collidepoint(event.pos):
                     print("Salir")
                 
 
                 # Check botones de envido
-                if envido_quiero_button_pos.collidepoint(event.pos):
-                    print("Quiero envido")
-                    res = partida.envido_actual.aceptar_envido()
-                    res.ganador.sumar_puntos(res.puntos_a_sumar)
-                    print(res)
-                    se_puede_cantar_tantos = False
-                    display_cartel_envido(PARTIDASURF, res)
-                    sleep(1)
-                    partida._resetear_envido()
-
-                elif envido_no_quiero_button_pos.collidepoint(event.pos):
-                    print("No quiero envido")
-                    puntos = partida.envido_actual.rechazar_envido()
-                    jugador_oponente.sumar_puntos(puntos)
-                    se_puede_cantar_tantos = False
-                    partida._resetear_envido()
-
                 if se_puede_cantar_tantos:
-                    if envido_envido_button_pos.collidepoint(event.pos) and not falta_envido_cantado and not real_envio_cantado and not envido_envido_cantado:
+                    if envido_quiero_button_pos.collidepoint(event.pos):
+                        print("Quiero envido")
+                        res = partida.envido_actual.aceptar_envido()
+                        res.ganador.sumar_puntos(res.puntos_a_sumar)
+                        print(res)
+                        se_puede_cantar_tantos = False
+                        display_cartel_envido(PARTIDASURF, res)
+                        partida._resetear_envido()
+
+
+                    elif envido_no_quiero_button_pos.collidepoint(event.pos):
+                        print("No quiero envido")
+                        puntos = partida.envido_actual.rechazar_envido()
+                        jugador_oponente.sumar_puntos(puntos)
+                        se_puede_cantar_tantos = False
+                        partida._resetear_envido()
+
+                    elif envido_envido_button_pos.collidepoint(event.pos) and not falta_envido_cantado and not real_envio_cantado and not envido_envido_cantado:
                         print("Envido")
                         
                         envido_envido_cantado = True
