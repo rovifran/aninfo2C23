@@ -1,4 +1,5 @@
 import mazo 
+import envido as env
 from mesa import Mesa
 #import jugador
 
@@ -28,7 +29,9 @@ class Partida:
         self.jugador_actual = j1
         self.jugador_contrario = j2
         self.jugador_mano = j2 # para ver cosas como quien gano en el envido si empatan, o si se empardan las 3 manos
+        self.jugador_canto_envido = None
         self.ganador_por_mano = []
+        self.envido_actual = None
         self.ganador_final_mano = None
         self.max_puntos = max_puntos
         self.flor = flor
@@ -57,6 +60,42 @@ class Partida:
             if ganador_mano != None and ganador_mano != self.jugador_actual:
                 self.cambiar_turno()
 
+    def cantar_envido(self, tipo_envido):
+        if self.jugador_canto_envido == None:
+            self.jugador_canto_envido = self.jugador_actual
+            self.envido = env.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido, self.max_puntos)
+            self.cambiar_turno()
+
+        else:
+            if self.envido_actual.actualizar(tipo_envido):
+                self.cambiar_turno()
+
+    def _resetear_envido(self):
+        if self.jugador_actual != self.jugador_canto_envido:
+            self.cambiar_turno()
+
+        self.envido_actual = None
+        self.jugador_canto_envido = None        
+
+    def aceptar_envido(self):
+        res_envido = self.envido_actual.aceptar_envido()        
+        if res_envido.ganador == None:
+            if res_envido.puntos_a_sumar == None:
+                contrincante = self.jugador_contrario if self.jugador_mano == self.jugador_actual else self.jugador_actual
+                self.jugador_mano.sumar_puntos(self.max_puntos - contrincante.obtener_puntos())
+            else:
+                self.jugador_mano.sumar_puntos(res_envido.puntos_a_sumar)
+        else: 
+            res_envido.ganador.sumar_puntos(res_envido.puntos_a_sumar)
+
+        self._resetear_envido()
+
+        return res_envido
+
+    def rechazar_envido(self):
+        puntos = self.envido_actual.rechazar_envido()
+        self.jugador_contrario.sumar_puntos(puntos)
+
     def iniciar_mano(self):
         jugador_actual = self.jugador_actual
         jugador_contrario = self.jugador_contrario
@@ -69,9 +108,7 @@ class Partida:
 
         self.ganador_por_mano = []
         self.ganador_final_mano = None
-
-        print("[JUGADOR ACTUAL]: ", self.jugador_actual.personaje)
-        print("[JUGADOR CONTRARIO]: ", self.jugador_contrario.personaje)
+        self.jugador_canto_envido = None
 
         self.mazo.mezclar()
         mano_j1, mano_j2 = self.mazo.repartir()
@@ -98,7 +135,7 @@ class Partida:
             return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] == self.ganador_por_mano[1]
 
         def _parda_solo_en_segunda_mano():
-            return self.ganador_por_mano[0] != None and self.ganador_por_mano[1] == None
+            return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] != None and self.ganador_por_mano[1] == None
 
         def _ganador_en_tercera_mano_por_todo_parda():
             return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] == None and self.ganador_por_mano[1] == None and self.ganador_por_mano[2] != None
@@ -126,6 +163,7 @@ class Partida:
         if _parda_solo_en_segunda_mano():
             self.ganador_final_mano = self.ganador_por_mano[0]
             return
+        
         if _mismo_ganador_primeras_dos_manos():
             self.ganador_final_mano = self.ganador_por_mano[0]
             return
@@ -139,4 +177,3 @@ class Partida:
             return
         
 
-        
