@@ -13,6 +13,8 @@ CARD_HEIGHT = 270 * 6/10
 
 PICTURE_SIZE = 100
 
+CARTEL_AVISOS_SIZE = SCREEN_WIDTH/2
+
 #Colores
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -55,21 +57,44 @@ cartas_en_mesa = [carta_en_mesa_1_pos, carta_en_mesa_2_pos, carta_en_mesa_3_pos]
 # Botones
 truco_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
 envido_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 50, BUTTON_WIDTH, BUTTON_HEIGHT)
-flor_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 100, BUTTON_WIDTH, BUTTON_HEIGHT)
-quiero_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 150, BUTTON_WIDTH, BUTTON_HEIGHT)
-no_quiero_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 200, BUTTON_WIDTH, BUTTON_HEIGHT)
+real_envido_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 100, BUTTON_WIDTH, BUTTON_HEIGHT)
+falta_envido_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 150, BUTTON_WIDTH, BUTTON_HEIGHT)
+flor_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 200, BUTTON_WIDTH, BUTTON_HEIGHT)
 mazo_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 250, BUTTON_WIDTH, BUTTON_HEIGHT)
 salir_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 300, BUTTON_WIDTH, BUTTON_HEIGHT)
 
 turno_actual_cartel = pygame.Rect(SCREEN_WIDTH/25, SCREEN_HEIGHT - BUTTON_HEIGHT, BUTTON_WIDTH*1.6, BUTTON_HEIGHT)
 
+# Botones Envido
+envido_quiero_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH,SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_no_quiero_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_real_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 + BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+envido_falta_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 + 2*BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
 
-def render_boton(surf, boton, texto):
-    pygame.draw.rect(surf, WHITE, boton, border_radius=10)
+# Cartel de avisos
+cartel_avisos = pygame.Rect(SCREEN_WIDTH/2 - CARTEL_AVISOS_SIZE/2 , SCREEN_HEIGHT/2 - CARTEL_AVISOS_SIZE/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+
+def render_boton(surf, boton, texto, color_boton=WHITE):
+    pygame.draw.rect(surf, color_boton, boton, border_radius=10)
     pygame.draw.rect(surf, BLACK, boton, 3, 10)
     
-    text_coords = (boton.x + boton.width/2 - 25, boton.y + boton.height/2 - 10)
+    text_coords = (boton.x + boton.width/2 - len(texto*4), boton.y + boton.height/2 - 10)
     surf.blit(button_font.render(texto, True, BLACK), text_coords)
+
+def display_cartel_envido(surf, res_envido):
+    ganador = res_envido.ganador
+    perdedor = res_envido.perdedor
+    puntos_ganador = res_envido.puntos_ganador
+    puntos_perdedor = res_envido.puntos_perdedor
+    
+    pygame.draw.rect(surf, WHITE, cartel_avisos)
+    pygame.draw.rect(surf, BLACK, cartel_avisos, 3, 10)
+
+    texto_ganador = f"Tantos de {ganador.personaje}: {puntos_ganador},"
+    texto_perdeor = f"Tantos de {perdedor.personaje}: {puntos_perdedor}"    
+    surf.blit(button_font.render(texto_ganador, True, GREEN), (cartel_avisos.x + 10, cartel_avisos.y + 10))
+    surf.blit(button_font.render(texto_perdeor, True, RED), (cartel_avisos.x + 10, cartel_avisos.y + 10 + 20))
 
 # Imagenes
 fondo = pygame.image.load("img/fondo.jpg")
@@ -88,4 +113,4 @@ mesa_img = pygame.transform.scale(mesa_img, (SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
 
 coto = pygame.image.load("img/coto.png")
 coto = pygame.transform.scale(coto, (SCREEN_WIDTH/5, SCREEN_HEIGHT/3))  
-
+coto_boton = pygame.Rect(SCREEN_WIDTH*(1-1/4) + 10, SCREEN_HEIGHT*6/10, SCREEN_WIDTH/5, SCREEN_HEIGHT/3)

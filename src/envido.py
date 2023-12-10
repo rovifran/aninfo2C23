@@ -21,6 +21,12 @@ class ResultadoEnvido:
         self.puntos_perdedor = tantos_perdedor
         self.puntos_a_sumar = puntos_a_sumar
 
+    def __str__(self):
+        return f"Ganador: {self.ganador}, Puntos Ganador: {self.puntos_ganador}, Perdedor: {self.perdedor}, Puntos Perdedor: {self.puntos_perdedor}, Puntos a sumar: {self.puntos_a_sumar}"
+    
+    def __repr__(self):
+        return f"Ganador: {self.ganador}, Puntos Ganador: {self.puntos_ganador}, Perdedor: {self.perdedor}, Puntos Perdedor: {self.puntos_perdedor}, Puntos a sumar: {self.puntos_a_sumar}"
+
 class Envido:
     """Clase que representa el envido de una partida de truco"""
     def __init__(self, jugador_canto: "Jugador", jugador_oponente: "Jugador", fase: str, max_puntos: int) -> None:
@@ -41,16 +47,16 @@ class Envido:
                 envido = 0
                 if carta != carta2:
                     if carta.palo == carta2.palo:
-                        if carta.valor < 10 and carta2.valor < 10:
-                            envido = carta.valor + carta2.valor + 20
-                        elif carta.valor < 10 and carta2.valor >= 10:
-                            envido = carta.valor + 20
+                        if carta.numero < 10 and carta2.numero < 10:
+                            envido = carta.numero + carta2.numero + 20
+                        elif carta.numero < 10 and carta2.numero >= 10:
+                            envido = carta.numero + 20
                         else:
                             envido = 20
                         if envido > envido_maximo:
                             envido_maximo = envido
-                    elif carta.valor > envido_maximo and carta.valor < 10:
-                        envido_maximo = carta.valor 
+                    elif carta.numero > envido_maximo and carta.numero < 10:
+                        envido_maximo = carta.numero 
         
         return envido_maximo
         
