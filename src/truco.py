@@ -78,7 +78,36 @@ def mostrar_mesa(mesa, jugador_actual):
         
         PARTIDASURF.blit(carta_imagen_1, (cartas_en_mesa[i].x, cartas_en_mesa[i].y + (OFFSET_CARTA_Y * mult * -1)))
 
-    
+def fosforitos(puntos, offset_jugador):
+    if puntos > 25:
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50 + 75))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50 + 150))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50 + 225 + 25))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50 + 300 + 25))
+        PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 375 + 25))
+    elif puntos > 20:
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 75))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 150))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 225 + 25))
+        PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 300 + 25))
+    elif puntos > 15:
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 75))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 150))
+        PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50 + 225 + 25))
+    elif puntos > 10:
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE + 50))
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 75))
+        PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 150))
+    elif puntos > 5:
+        PARTIDASURF.blit(fosforos_5, (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50))
+        PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50 + 75))
+    else:
+        PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50))
+        
+
 def puntos_display(jugador_1, jugador_2):
     # Imagen
     PARTIDASURF.blit(hoja_puntos, (SCREEN_WIDTH/25, SCREEN_HEIGHT/25))
@@ -92,8 +121,14 @@ def puntos_display(jugador_1, jugador_2):
     PARTIDASURF.blit(button_font.render(f'{jugador_2}', True, BLACK), (SCREEN_WIDTH/20 + PICTURE_SIZE + 20, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20))
 
     # Puntos
-    PARTIDASURF.blit(button_font.render(f'{jugador_1.puntos}', True, BLACK), (SCREEN_WIDTH/20 + 50, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20 + 50))
-    PARTIDASURF.blit(button_font.render(f'{jugador_2.puntos}', True, BLACK), (SCREEN_WIDTH/20 + PICTURE_SIZE + 20 + 50, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20 + 50))
+    if jugador_1.puntos > 0:
+        fosforitos(jugador_1.puntos, 0)
+    if jugador_2.puntos > 0:
+        fosforitos(jugador_2.puntos, PICTURE_SIZE + 20)
+
+
+    PARTIDASURF.blit(button_font.render(f'{jugador_1.puntos}', True, BLACK), (SCREEN_WIDTH/20, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20 + 50))
+    PARTIDASURF.blit(button_font.render(f'{jugador_2.puntos}', True, BLACK), (SCREEN_WIDTH/20 + PICTURE_SIZE + 20, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20 + 50))
 
 def botones_display(se_puede_cantar_tantos, falta_envido_cantado, real_envio_cantado, envido_cantado):
     # Display y anuncio
