@@ -171,6 +171,14 @@ def mostrar_cartel_turno(jugador_actual):
     text_coords = (turno_actual_cartel.x + turno_actual_cartel.width/2 - 50, turno_actual_cartel.y + turno_actual_cartel.height/2 - 10)
     PARTIDASURF.blit(button_font.render(f'Turno de: {jugador_actual}', True, BLACK), text_coords)
 
+def reiniciar_pos_carta(carta_seleccionada_surf):
+    index = cartas_en_mano_pos.index(carta_seleccionada_surf)
+    cartas_en_mano_pos.remove(carta_seleccionada_surf)
+    nueva_x = cartas_en_mano_pos_originales[index][0]
+    nueva_y = cartas_en_mano_pos_originales[index][1]
+    nueva = pygame.Rect(nueva_x, nueva_y, CARD_WIDTH, CARD_HEIGHT)
+    cartas_en_mano_pos.insert(index, nueva)
+
 def main():
 
     PARTIDASURF.blit(fondo, (0, 0))
@@ -196,8 +204,6 @@ def main():
     while True:
         if gano == True:
             break
-        
-       
 
         if gano_ronda:
             gano_ronda = False
@@ -361,26 +367,17 @@ def main():
                         if p2 == jugador_actual:
                             se_puede_cantar_envido = False
                         
-                        index = cartas_en_mano_pos.index(carta_seleccionada_surf)
-                        
-                        cartas_en_mano_pos.remove(carta_seleccionada_surf)
-                        
-                        nueva_x = cartas_en_mano_pos_originales[index][0]
-                        nueva_y = cartas_en_mano_pos_originales[index][1]
-
-                        nueva = pygame.Rect(nueva_x, nueva_y, CARD_WIDTH, CARD_HEIGHT)
-
-                        cartas_en_mano_pos.insert(index, nueva)
-                        
-                        
-                        print(f"se jugo {index} en mesa")
-                        #cartas_en_mano_pos.remove(carta_seleccionada_surf)
-                        print(f"carta {carta_seleccionada} en mesa")
-
-                    
+                        reiniciar_pos_carta(carta_seleccionada_surf)
+                                  
                         hay_ganador_ronda = partida.hay_ganador_ronda()
                         if hay_ganador_ronda:
                             gano_ronda = True
+                    else:
+                        reiniciar_pos_carta(carta_seleccionada_surf)
+
+
+
+
                     carta_seleccionada_surf = None
                     carta_seleccionada = None
                 
@@ -390,3 +387,5 @@ def main():
         pygame.display.update()
 
 main()
+
+
