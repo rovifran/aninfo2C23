@@ -99,13 +99,13 @@ class Partida:
         self.jugador_contrario.sumar_puntos(puntos)
 
     def cantar_truco(self, tipo_truco):
-        if self.jugador_canto_truco == None:
+        if self.truco_actual == None:
             self.truco_actual = truco.Truco(tipo_truco)
             self.cambiar_turno()
 
         else:
-            if self.truco_actual.actualizar(tipo_truco):
-                self.cambiar_turno()
+            self.truco_actual.actualizar(tipo_truco)
+            self.cambiar_turno()
 
     def aceptar_truco(self):
         self.truco_actual.aceptar_truco()

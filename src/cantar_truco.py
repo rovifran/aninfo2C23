@@ -23,7 +23,7 @@ class Truco:
         self.aceptado = False
         return self.calcular_puntos()
 
-    def actualizar_fase(self, fase: str) -> None:
+    def actualizar(self, fase: str) -> None:
         self.fase = fase
 
     def fue_aceptado(self):
