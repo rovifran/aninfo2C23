@@ -1,0 +1,7 @@
+# Ignorar archivos pycache
+./__pycache__/
+img_cartas/__pycache__/
+tests/__pycache__/
+
+# Ignorar archivos pyc
+*.pyc

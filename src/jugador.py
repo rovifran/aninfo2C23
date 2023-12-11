@@ -36,6 +36,12 @@ class Jugador:
     def gano(self, max_puntos) -> bool:
         return self.puntos >= max_puntos
     
+    def obtener_puntos(self) -> int:
+        return self.puntos
+
+    def obtener_cartas(self) -> list:
+        return self.cartas
+
     def __str__(self):
         return self.personaje
     
