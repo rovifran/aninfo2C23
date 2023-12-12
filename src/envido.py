@@ -1,7 +1,8 @@
-#from cartas import _Carta
 from jugador import Jugador
 
 from math import floor
+
+FALTAENVIDO = "FALTAENVIDO"
 
 FASES_Y_PUNTOS = {
     "FALTAENVIDO": 0,
@@ -35,7 +36,7 @@ class Envido:
         self.max_puntos = max_puntos
         self.fase = fase
 
-        if fase == "FALTAENVIDO":
+        if fase == FALTAENVIDO:
             self.es_falta_envido = True
         else:
             self.es_falta_envido = False
@@ -99,10 +100,11 @@ class Envido:
         self.jugador_oponente = aux
 
     def actualizar(self, tipo_envido):
-        if tipo_envido == "FALTAENVIDO":
+        if tipo_envido == FALTAENVIDO:
             if self.es_falta_envido:
                 return False
             self._actualizar()
+            self.es_falta_envido = True
             return True
 
         fase_nueva = self.fase + "_" + tipo_envido
