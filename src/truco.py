@@ -7,6 +7,7 @@ from mesa import Mesa
 from logica import Partida
 from pygame_objs import *
 from time import sleep
+
 import webbrowser
 
 # Set up pygame
@@ -124,10 +125,6 @@ def puntos_display(jugador_1, jugador_2):
     if jugador_2.puntos > 0:
         fosforitos(jugador_2.puntos, PICTURE_SIZE + 20)
 
-
-    PARTIDASURF.blit(button_font.render(f'{jugador_1.puntos}', True, BLACK), (SCREEN_WIDTH/20, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20 + 50))
-    PARTIDASURF.blit(button_font.render(f'{jugador_2.puntos}', True, BLACK), (SCREEN_WIDTH/20 + PICTURE_SIZE + 20, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20 + 50))
-
 def botones_display(se_puede_cantar_tantos, falta_envido_cantado, real_envio_cantado, envido_cantado):
     # Display y anuncio
     PARTIDASURF.blit(display, (SCREEN_WIDTH*(1-1/4), SCREEN_HEIGHT/25))
@@ -179,7 +176,7 @@ def reiniciar_pos_carta(carta_seleccionada_surf):
     cartas_en_mano_pos.insert(index, nueva)
 
 def mostrar_opciones_envido(partida, envido_envido_cantado, real_envio_cantado, falta_envido_cantado):
-     if partida.envido_actual != None:
+    if partida.envido_actual != None:
         # Botones de envido
         # draw a rect behin the buttons
         pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
@@ -203,6 +200,26 @@ def mostrar_opciones_envido(partida, envido_envido_cantado, real_envio_cantado, 
             render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
             render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido', color_boton=GRAY)
             render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
+        fase = partida.envido_actual.fase
+        canto = fase.split("_")[-1].lower()
+        message_display(partida.jugador_contrario.personaje + " canto " + canto, 35, 0)
+
+
+
+def text_objects(text, font):
+    textSurface = font.render(text, True, BLACK)
+    return textSurface, textSurface.get_rect()
+
+
+def message_display(mensaje, tamanio = 75, sleep_t = 0.75, cartel_t = 0):
+    largeText = pygame.font.Font("freesansbold.ttf", tamanio)
+    pygame.draw.rect(PARTIDASURF, WHITE, (SCREEN_WIDTH/2 - 200 - cartel_t, SCREEN_HEIGHT/2 - 50 - cartel_t, 400 + cartel_t*2, 100 + cartel_t*2), border_radius=10)
+
+    TextSurf, TextRect = text_objects(mensaje, largeText)
+    TextRect.center = ((SCREEN_WIDTH/2),(SCREEN_HEIGHT/2))
+    PARTIDASURF.blit(TextSurf, TextRect)
+    pygame.display.update()
+    sleep(sleep_t)
 
 
 def main():
@@ -234,7 +251,7 @@ def main():
         if gano_ronda:
             gano_ronda = False
             print('Alguien gano la ronda xd') #CArtelito: X jugador gano!
-            sleep(2)
+            message_display("Gano la ronda " + partida.ganador_final_mano.personaje, 35, cartel_t=30)
             #Borrar cartelito
             mesa = Mesa()
             partida.mesa = mesa
@@ -245,6 +262,7 @@ def main():
             real_envio_cantado = False
             falta_envido_cantado = False
             partida.iniciar_mano()
+            message_display("Turno de " + partida.jugador_actual.personaje, 35, cartel_t=30)
 
         for event in pygame.event.get():
             if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
@@ -254,10 +272,12 @@ def main():
             jugador_actual = partida.obtener_jugador_actual()
             jugador_oponente = partida.obtener_jugador_contrario()
             
+
             PARTIDASURF.blit(fondo, (0, 0))
             
             mostrar_mesa(mesa, jugador_actual)
             puntos_display(p1, p2)
+
             botones_display(se_puede_cantar_tantos, falta_envido_cantado, real_envio_cantado, envido_cantado)
 
             mostrar_cartas(jugador_actual, False)
@@ -310,15 +330,17 @@ def main():
                         res.ganador.sumar_puntos(res.puntos_a_sumar)
                         print(res)
                         se_puede_cantar_tantos = False
-                        display_cartel_envido(PARTIDASURF, res)
+                        
+                        message_display("Gano el envido " + res.ganador.personaje + " con " + str(res.puntos_ganador) + " puntos", 20, sleep_t=1.3, cartel_t=30)
+                        message_display("Perdio el envido " + res.perdedor.personaje + " con " + str(res.puntos_perdedor) + " puntos", 20, sleep_t=1.3, cartel_t=30)
                         partida._resetear_envido()
-
 
                     elif envido_no_quiero_button_pos.collidepoint(event.pos):
                         print("No quiero envido")
                         puntos = partida.envido_actual.rechazar_envido()
                         jugador_oponente.sumar_puntos(puntos)
                         se_puede_cantar_tantos = False
+                        message_display(jugador_actual.personaje + " no quiso el envido", 30, sleep_t=1.3, cartel_t=30)
                         partida._resetear_envido()
 
                     elif envido_envido_button_pos.collidepoint(event.pos) and not falta_envido_cantado and not real_envio_cantado and not envido_envido_cantado:
@@ -341,7 +363,6 @@ def main():
                         partida.envido_actual.aceptar_envido()
                         partida.cantar_envido("FALTAENVIDO")
 
-                    
                 if coto_boton.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
 
@@ -370,17 +391,18 @@ def main():
                     if mesa_pos.collidepoint(event.pos):
                         partida.jugar_carta(carta_seleccionada)
                         if p2 == jugador_actual:
-                            se_puede_cantar_envido = False
+                            se_puede_cantar_tantos = False
                         
                         reiniciar_pos_carta(carta_seleccionada_surf)
                                   
                         hay_ganador_ronda = partida.hay_ganador_ronda()
                         if hay_ganador_ronda:
                             gano_ronda = True
+                        
+                        if not hay_ganador_ronda:
+                            message_display("Turno de " + partida.jugador_actual.personaje, 35, cartel_t=30)
                     else:
                         reiniciar_pos_carta(carta_seleccionada_surf)
-
-
 
 
                     carta_seleccionada_surf = None
