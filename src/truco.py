@@ -32,7 +32,6 @@ def iniciar_mano():
     partida = Partida(p1, p2, 30, False, mesa)
     partida.iniciar_mano()
     return partida, mesa, p1, p2
-    
 
 def mostrar_cartas(jugador, es_oponente):
     if es_oponente:
@@ -107,7 +106,6 @@ def fosforitos(puntos, offset_jugador):
     else:
         PARTIDASURF.blit(fosforos[puntos % 5 - 1], (SCREEN_WIDTH/20 + offset_jugador, SCREEN_HEIGHT/20 + PICTURE_SIZE  + 50))
         
-
 def puntos_display(jugador_1, jugador_2):
     # Imagen
     PARTIDASURF.blit(hoja_puntos, (SCREEN_WIDTH/25, SCREEN_HEIGHT/25))
@@ -171,6 +169,7 @@ def mostrar_cartel_turno(jugador_actual):
     text_coords = (turno_actual_cartel.x + turno_actual_cartel.width/2 - 50, turno_actual_cartel.y + turno_actual_cartel.height/2 - 10)
     PARTIDASURF.blit(button_font.render(f'Turno de: {jugador_actual}', True, BLACK), text_coords)
 
+
 def reiniciar_pos_carta(carta_seleccionada_surf):
     index = cartas_en_mano_pos.index(carta_seleccionada_surf)
     cartas_en_mano_pos.remove(carta_seleccionada_surf)
@@ -178,6 +177,33 @@ def reiniciar_pos_carta(carta_seleccionada_surf):
     nueva_y = cartas_en_mano_pos_originales[index][1]
     nueva = pygame.Rect(nueva_x, nueva_y, CARD_WIDTH, CARD_HEIGHT)
     cartas_en_mano_pos.insert(index, nueva)
+
+def mostrar_opciones_envido(partida, envido_envido_cantado, real_envio_cantado, falta_envido_cantado):
+     if partida.envido_actual != None:
+        # Botones de envido
+        # draw a rect behin the buttons
+        pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
+        pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
+        render_boton(PARTIDASURF, envido_quiero_button_pos, 'Quiero')
+        render_boton(PARTIDASURF, envido_no_quiero_button_pos, 'No Quiero')
+
+
+        render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido')
+        render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido')
+        render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido')
+
+        if envido_envido_cantado:
+            render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
+
+        if real_envio_cantado:
+            render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
+            render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido', color_boton=GRAY)
+
+        if falta_envido_cantado:
+            render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
+            render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido', color_boton=GRAY)
+            render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
+
 
 def main():
 
@@ -204,7 +230,7 @@ def main():
     while True:
         if gano == True:
             break
-
+            
         if gano_ronda:
             gano_ronda = False
             print('Alguien gano la ronda xd') #CArtelito: X jugador gano!
@@ -213,6 +239,11 @@ def main():
             mesa = Mesa()
             partida.mesa = mesa
             partida.sumar_puntos_a_ganador()
+            se_puede_cantar_tantos = True
+            envido_cantado = False
+            envido_envido_cantado = False
+            real_envio_cantado = False
+            falta_envido_cantado = False
             partida.iniciar_mano()
 
         for event in pygame.event.get():
@@ -234,31 +265,7 @@ def main():
             
             mostrar_cartel_turno(jugador_actual)
 
-            if partida.envido_actual != None:
-                # Botones de envido
-                # draw a rect behin the buttons
-                pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
-                pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
-                render_boton(PARTIDASURF, envido_quiero_button_pos, 'Quiero')
-                render_boton(PARTIDASURF, envido_no_quiero_button_pos, 'No Quiero')
-
-
-                render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido')
-                render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido')
-                render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido')
-
-                if envido_envido_cantado:
-                    render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
-
-                if real_envio_cantado:
-                    render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
-                    render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido', color_boton=GRAY)
-
-                if falta_envido_cantado:
-                    render_boton(PARTIDASURF, envido_envido_button_pos, 'Envido', color_boton=GRAY)
-                    render_boton(PARTIDASURF, envido_real_envido_button_pos, 'Real Envido', color_boton=GRAY)
-                    render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
-
+            mostrar_opciones_envido(partida, envido_envido_cantado, real_envio_cantado, falta_envido_cantado)
 
             # drag cartas
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -271,7 +278,6 @@ def main():
                 if truco_button_pos.collidepoint(event.pos):
                     print("Canto truco")
 
-                
                 elif envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envio_cantado and not envido_envido_cantado:
                     print("Canto envido")
                     envido_cantado = True
@@ -291,7 +297,6 @@ def main():
                     print("Canto flor")
                 
                 elif mazo_button_pos.collidepoint(event.pos):
-                    display_cartel_envido(PARTIDASURF, res)
                     print("Mazo")
                 elif salir_button_pos.collidepoint(event.pos):
                     print("Salir")
