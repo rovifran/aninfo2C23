@@ -184,10 +184,13 @@ def mostrar_opciones_truco(partida):
     if partida.truco_actual != None:
         # Botones de truco
         # draw a rect behin the buttons
-        pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH - 10, SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*2+20, BUTTON_HEIGHT+20), border_radius=10)
-        pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH -10, SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*2+20, BUTTON_HEIGHT+20), 3, 10)
+        pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
+        pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
+
         render_boton(PARTIDASURF, truco_quiero_button_pos, 'Quiero')
         render_boton(PARTIDASURF, truco_no_quiero_button_pos, 'No Quiero')
+        render_boton(PARTIDASURF, truco_re_truco_button_pos, 'Re Truco')
+        render_boton(PARTIDASURF, truco_vale_cuatro_button_pos, 'Vale Cuatro')
 
 def mostrar_opciones_envido(partida, envido_envido_cantado, real_envio_cantado, falta_envido_cantado):
      if partida.envido_actual != None:
@@ -383,10 +386,9 @@ def main():
                 if se_canto_truco:
                     if truco_quiero_button_pos.collidepoint(event.pos):
                         print("Quiero truco")
-                        partida.truco_actual.aceptar_truco()
-                        se_puede_cantar_truco = False
+                        partida.aceptar_truco()
                         partida.truco_actual = None
-                        truco_etapa_actual = 0
+                        
 
                     elif truco_no_quiero_button_pos.collidepoint(event.pos):
                         print("No quiero truco")
@@ -395,6 +397,17 @@ def main():
                         truco_etapa_actual = 0
                         partida.ganador_final_mano = jugador_oponente
                         gano_ronda = True
+
+                    elif truco_re_truco_button_pos.collidepoint(event.pos):
+                        print("Re Truco")
+                        partida.cantar_truco("RETRUCO")
+                        truco_etapa_actual = 1
+                        
+                    elif truco_vale_cuatro_button_pos.collidepoint(event.pos):
+                        print("Vale Cuatro")
+                        partida.cantar_truco("VALECUATRO")
+                        truco_etapa_actual = 2
+                    
                     
                 if coto_boton.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
