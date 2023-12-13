@@ -72,6 +72,9 @@ envido_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2, SCREEN_H
 envido_real_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 + BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
 envido_falta_envido_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH/2 + 2*BUTTON_WIDTH, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
 
+truco_quiero_button_pos = pygame.Rect(SCREEN_WIDTH/2 - BUTTON_WIDTH,SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+truco_no_quiero_button_pos = pygame.Rect(SCREEN_WIDTH/2, SCREEN_HEIGHT/25 + 10, BUTTON_WIDTH, BUTTON_HEIGHT)
+
 # Cartel de avisos
 cartel_avisos = pygame.Rect(SCREEN_WIDTH/2 - CARTEL_AVISOS_SIZE/2 , SCREEN_HEIGHT/2 - CARTEL_AVISOS_SIZE/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 

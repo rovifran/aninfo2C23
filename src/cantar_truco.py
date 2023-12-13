@@ -11,6 +11,7 @@ class Truco:
     def __init__(self, fase) -> None:
         self.fase = fase
         self.aceptado = False
+        self.ultimo_que_canto = None
 
     def calcular_puntos(self) -> int:
         return PUNTOS_Y_FASES[self.fase]
