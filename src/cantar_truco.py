@@ -11,6 +11,8 @@ class Truco:
         self.fase = fase
         self.aceptado = False
         self.fase_anterior = "NO_QUIERO"
+        self.ultimo_que_canto = None
+
 
     def calcular_puntos(self) -> int:
         if self.fue_aceptado():
