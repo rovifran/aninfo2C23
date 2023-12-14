@@ -105,6 +105,6 @@ while screen.is_running():
         screen.display()
 
 if (screen.starting == True):
-    print("aca deberia arrancar la partida")
+    print(screen.game_config)
 #    quit_button.draw(screen)
 #    popup_button.draw(screen)
