@@ -270,13 +270,19 @@ def main():
             mesa = Mesa()
             partida.mesa = mesa
             partida.sumar_puntos_a_ganador()
+
+            se_puede_cantar_truco = True
             se_canto_truco = False
+            jugador_oponente.canto_truco_actual = "TRUCO"
+            jugador_actual.canto_truco_actual = "TRUCO"
             se_puede_cantar_tantos = True
             envido_cantado = False
             envido_envido_cantado = False
             real_envio_cantado = False
             falta_envido_cantado = False
-            se_puede_cantar_truco = True
+
+            truco_etapas = ["VALE_CUATRO", "RETRUCO", "TRUCO"]
+
             partida.iniciar_mano()
 
         
@@ -314,6 +320,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 print(f"cartas de {p1}: {p1.cartas} ")
                 print(f"cartas de {p2}: {p2.cartas} ")
+                print(f"jugador_actual.canto_truco_actual: {jugador_actual.canto_truco_actual} ")
 
                 card_down_sound.play()
                 
@@ -395,6 +402,11 @@ def main():
                     if truco_quiero_button_pos.collidepoint(event.pos):
                         print("Quiero truco")
                         se_canto_truco = False
+                        if truco_etapas == []:
+                            jugador_oponente.canto_truco_actual = "-"
+                        else:
+                            jugador_oponente.canto_truco_actual = truco_etapas[-1]
+
                         partida.aceptar_truco()
                         
                         #partida.truco_actual = None
@@ -410,6 +422,7 @@ def main():
                     elif truco_re_truco_button_pos.collidepoint(event.pos) and jugador_actual.canto_truco_actual == "RETRUCO":
                         print("Re Truco")
                         truco_etapas.pop()
+                        
                         jugador_oponente.canto_truco_actual = "VALE_CUATRO"
                         jugador_actual.canto_truco_actual = "-"
                         partida.cantar_truco("RETRUCO")
