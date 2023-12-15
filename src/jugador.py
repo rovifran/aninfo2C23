@@ -1,4 +1,5 @@
 import cartas
+MAX_PUNTOS = 30
 
 class Jugador:
     """
@@ -29,6 +30,7 @@ class Jugador:
     """
     def sumar_puntos(self, puntos):
         self.puntos += puntos
+        self.puntos = min(self.puntos, MAX_PUNTOS)
     
     """
     Pregunta si el jugador tiene los puntos necesarios para ganar.

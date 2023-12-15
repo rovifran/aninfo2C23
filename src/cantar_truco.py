@@ -1,3 +1,6 @@
+
+NO_QUIERO = "NO_QUIERO"
+
 PUNTOS_Y_FASES = {
     "TRUCO": 2,
     "RETRUCO": 3,
@@ -23,7 +26,7 @@ class Truco:
         self.aceptado = True
 
     def rechazar_truco(self) -> int:
-        self.fase = "NO_QUIERO"
+        self.fase = NO_QUIERO
         self.aceptado = False
         return self.calcular_puntos()
 
