@@ -1,3 +1,4 @@
+
 NO_QUIERO = "NO_QUIERO"
 
 PUNTOS_Y_FASES = {
@@ -12,9 +13,14 @@ class Truco:
     def __init__(self, fase) -> None:
         self.fase = fase
         self.aceptado = False
+        self.fase_anterior = "NO_QUIERO"
+        self.ultimo_que_canto = None
+
 
     def calcular_puntos(self) -> int:
-        return PUNTOS_Y_FASES[self.fase]
+        if self.fue_aceptado():
+            return PUNTOS_Y_FASES[self.fase]
+        return PUNTOS_Y_FASES[self.fase_anterior]
 
     def aceptar_truco(self) -> int:
         self.aceptado = True
@@ -25,6 +31,7 @@ class Truco:
         return self.calcular_puntos()
 
     def actualizar(self, fase: str) -> None:
+        self.fase_anterior = self.fase
         self.fase = fase
 
     def fue_aceptado(self):
