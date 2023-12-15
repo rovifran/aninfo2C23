@@ -136,8 +136,8 @@ class Envido:
         """
         cartas_jugador_canto = self.jugador_canto.obtener_cartas()
         cartas_jugador_oponente = self.jugador_oponente.obtener_cartas()
-        tantos_jugador_canto = self.calcular_tantos(cartas_jugador_canto)
-        tantos_jugador_oponente = self.calcular_tantos(cartas_jugador_oponente)
+        tantos_jugador_canto = self._calcular_tantos(cartas_jugador_canto)
+        tantos_jugador_oponente = self._calcular_tantos(cartas_jugador_oponente)
 
         if tantos_jugador_canto > tantos_jugador_oponente:
             return ResultadoEnvido(self.jugador_canto, tantos_jugador_canto, self.jugador_oponente, tantos_jugador_oponente, FASES_Y_PUNTOS[self.fase])
@@ -162,7 +162,7 @@ class Envido:
         * Devuelve una instancia de ResultadoEnvido con el ganador, el perdedor, los tantos
         de cada uno y los puntos a sumar
         """
-        res_envido = self.comparar_tantos()
+        res_envido = self._comparar_tantos()
         if self.es_falta_envido:
             if res_envido.ganador == None:
                 res_envido.puntos_a_sumar = None

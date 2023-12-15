@@ -129,8 +129,10 @@ def botones_display(truco_actual, se_puede_cantar_truco,  se_puede_cantar_tantos
     # Display y anuncio
     PARTIDASURF.blit(display, (SCREEN_WIDTH*(1-1/4), SCREEN_HEIGHT/25))
     PARTIDASURF.blit(coto, (SCREEN_WIDTH*(1-1/4) + 10, SCREEN_HEIGHT*6/10))
+    
     # Botones
-    render_boton(PARTIDASURF, truco_button_pos, truco_actual)
+    if se_puede_cantar_truco:
+        render_boton(PARTIDASURF, truco_button_pos, truco_actual)
 
     render_boton(PARTIDASURF, envido_button_pos, 'Envido')
     render_boton(PARTIDASURF, real_envido_button_pos, 'Real Envido')
@@ -193,6 +195,10 @@ def mostrar_opciones_truco(partida):
             render_boton(PARTIDASURF, truco_re_truco_button_pos, 'Re Truco')
         if partida.jugador_actual.canto_truco_actual == "VALE_CUATRO":
             render_boton(PARTIDASURF, truco_vale_cuatro_button_pos, 'Vale Cuatro')
+        
+        fase = partida.truco_actual.fase
+        canto = fase.split("_")[-1].lower()
+        message_display(partida.jugador_contrario.personaje + " canto " + canto, 35, 0)
 
 def mostrar_opciones_envido(partida, envido_envido_cantado, real_envio_cantado, falta_envido_cantado):
     if partida.envido_actual != None:
@@ -240,6 +246,11 @@ def message_display(mensaje, tamanio = 75, sleep_t = 0.75, cartel_t = 0):
     pygame.display.update()
     sleep(sleep_t)
 
+def check_si_termino_partida(partida):
+    if partida.jugador_actual.puntos >= partida.max_puntos or partida.jugador_contrario.puntos >= partida.max_puntos:
+        return True
+    return False
+
 def main():
 
     PARTIDASURF.blit(fondo, (0, 0))
@@ -278,8 +289,16 @@ def main():
     while True:
         if gano == True:
             break
-            
+        
+        se_puede_cantar_truco = True
+
         if gano_ronda:
+
+            # if check_si_termino_partida(partida):
+            #     gano = True
+            #     message_display("Gano la partida " + partida.ganador_final_mano.personaje, 35, cartel_t=30)
+            #     break
+
             gano_ronda = False
             print('Alguien gano la ronda xd') #CArtelito: X jugador gano!
             message_display("Gano la ronda " + partida.ganador_final_mano.personaje, 35, cartel_t=30)
@@ -312,6 +331,8 @@ def main():
             jugador_actual = partida.obtener_jugador_actual()
             jugador_oponente = partida.obtener_jugador_contrario()
             
+            if jugador_actual.canto_truco_actual == "-":
+                se_puede_cantar_truco = False
 
             PARTIDASURF.blit(fondo, (0, 0))
             
@@ -353,6 +374,7 @@ def main():
                         jugador_oponente.canto_truco_actual = truco_etapas[-1]
                     
                     jugador_actual.canto_truco_actual = "-"
+                    
 
                     partida.cantar_truco(truco_a_llamar)
                     se_canto_truco  = True
@@ -429,13 +451,16 @@ def main():
                             jugador_oponente.canto_truco_actual = "-"
                         else:
                             jugador_oponente.canto_truco_actual = truco_etapas[-1]
-
+                        jugador_oponente.canto_truco_actual = "-"
+                        message_display(jugador_actual.personaje + " quiso", 30, sleep_t=1.3, cartel_t=30)
                         partida.aceptar_truco()
                         
                         #partida.truco_actual = None
 
                     elif truco_no_quiero_button_pos.collidepoint(event.pos):
                         print("No quiero truco")
+                        message_display(jugador_actual.personaje + " no quiso", 30, sleep_t=1.3, cartel_t=30)
+
                         puntos = partida.truco_actual.rechazar_truco()
                         #partida.truco_actual = None
                         se_canto_truco = False
