@@ -493,7 +493,7 @@ def main():
                         if hay_ganador_ronda:
                             gano_ronda = True
                         
-                        if not hay_ganador_ronda:
+                        elif hay_ganador_ronda:
                             message_display("Turno de " + partida.jugador_actual.personaje, 35, cartel_t=30)
                     else:
                         reiniciar_pos_carta(carta_seleccionada_surf)
