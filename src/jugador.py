@@ -9,6 +9,7 @@ class Jugador:
         self.cartas = []
         self.puntos = 0
         self.personaje = personaje
+        self.canto_truco_actual = "TRUCO"
 
     """
     Recibe las cartas que le tocan al jugador y las guarda en su mano.
