@@ -1,4 +1,5 @@
 import cartas
+MAX_PUNTOS = 30
 
 class Jugador:
     """
@@ -9,6 +10,7 @@ class Jugador:
         self.cartas = []
         self.puntos = 0
         self.personaje = personaje
+        self.canto_truco_actual = "TRUCO"
 
     """
     Recibe las cartas que le tocan al jugador y las guarda en su mano.
@@ -28,6 +30,7 @@ class Jugador:
     """
     def sumar_puntos(self, puntos):
         self.puntos += puntos
+        self.puntos = min(self.puntos, MAX_PUNTOS)
     
     """
     Pregunta si el jugador tiene los puntos necesarios para ganar.
