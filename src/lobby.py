@@ -1,4 +1,6 @@
 
+import front_partida as truco
+
 class Lobby(): 
     """
     Clase que representa al lobby del juego. Este permite al usuario  elegir:
@@ -17,7 +19,6 @@ class Lobby():
         self.personaje = None
         self.personaje_oponente = None
         self.puntos = None
-        self.flor = None
         self.partida = None
 
     def seleccionar_personaje(self, personaje: str) -> None: 
@@ -40,22 +41,17 @@ class Lobby():
         """
         if puntos not in [15, 30]: raise PuntosInvalidosError("Los puntos deben ser 15 o 30")
         self.puntos = puntos
-    
-    def seleccionar_flor(self, flor: bool) -> None:
-        """
-        Recibe un bool con la opcion de flor y lo asigna al atributo flor
-        """
-        self.flor = flor
 
     def iniciar_partida(self) -> None:
         """
         Inicia una partida con los parametros seleccionados, para ello llama a una instancia
         de a clase Partida y la inicia con los valores obtenidos.
         """
-        if self.personaje is None or self.personaje_oponente is None or self.puntos is None or self.flor is None:
+        if self.personaje is None or self.personaje_oponente is None or self.puntos is None:
             raise CamposIncompletos("Faltan campos por completar")
 
-        # Aca se llama a la clase Partida y se inicia la partida
+        truco.init_partida(self.personaje, self.personaje_oponente, self.puntos)
+        
 
 class PuntosInvalidosError(Exception):
     def __init__(self, mensaje: str) -> None:
