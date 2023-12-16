@@ -42,7 +42,6 @@ def mostrar_cartas(jugador, es_oponente):
             carta = pygame.transform.rotate(carta_aux, 10 - i*10)
            
             PARTIDASURF.blit(carta, cartas_en_mano_pos[i])
-            pygame.draw.rect(PARTIDASURF, BLUE, cartas_en_mano_pos[i], 3)
 
 def mostrar_mesa(mesa, jugador_actual):
     pygame.draw.rect(PARTIDASURF, BLACK, mesa_pos, 3)

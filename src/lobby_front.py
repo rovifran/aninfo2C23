@@ -1,6 +1,8 @@
 import pygame
 from lobby import Lobby
 pygame.init()
+from pygame_objs import *
+
 
 fondo = pygame.image.load("img/fondo.jpg")
 img_boton = pygame.image.load("img/boton.png")
@@ -32,14 +34,13 @@ class Button:
 
 class Screen: 
     def __init__(self, widgets):
-        self.pygame_screen = pygame.display.set_mode((800, 600))
+        self.pygame_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.widgets = widgets
-        self.game_config = {"#jugadores": 15, "flor": False, "oponente": "sr lotto (el te conoce)"}
         self.lobby = Lobby()
         self.running = True
         self.starting = False
 
-        self.lobby.seleccionar_personaje("sr lotto (el te conoce)")
+        self.lobby.seleccionar_personaje("sr lotto")
         self.lobby.seleccionar_personaje_oponente("cameejo")
 
     def start_match(self):
@@ -69,23 +70,25 @@ class Screen:
         self.widgets = new_widgets
 
     def set_amt_points(self, amt):
-        self.game_config["#jugadores"] = amt
         self.lobby.seleccionar_puntos(amt)
+
+    def setPlayers(self, p1, p2):
+        self.lobby.seleccionar_personaje(p1)
+        self.lobby.seleccionar_personaje_oponente(p2)
 
     def set_flor(self, se_juega_con_flor):
         pass
 
     def set_oponente(self, oponente):
-        self.game_config["oponente"] = oponente
         self.lobby.seleccionar_personaje_oponente(oponente)
 
 
 
 
 
-sin_flor = Button(100, 100, 200, 50, (255, 0, 0), "Sin flor" ,lambda : (screen.set_flor(False), screen.start_match()))
-con_flor = Button(400, 100, 200, 50, (0, 255, 0), "Con flor", lambda: (screen.set_flor(True), screen.start_match()))
-widgets_for_screen_3 = [sin_flor, con_flor]
+jugar_como_lotto = Button(100, 100, 200, 50, (255, 0, 0), "Sr Lotto" ,lambda : (screen.setPlayers("Sr Lotto", "Camejo"), screen.start_match()))
+jugar_como_camejo = Button(400, 100, 200, 50, (0, 255, 0), "Camejo", lambda: (screen.setPlayers("Camejo", "Camejo"), screen.start_match()))
+widgets_for_screen_3 = [jugar_como_lotto, jugar_como_camejo]
 
 quit_button = Button(100, 100, 200, 50, (255, 0, 0), "Salir" , lambda: (screen.stop(), pygame.quit()))
 popup_button = Button(400, 100, 200, 50, (0, 255, 0), "Jugar", lambda: play_screen(screen, "Enter a number:", 0, lambda x: print(f"You entered {x}")))
@@ -129,7 +132,6 @@ def lobby_main():
             screen.display()
 
     if (screen.starting == True):
-        print(screen.game_config)
         screen.lobby.iniciar_partida()
     #    quit_button.draw(screen)
     #    popup_button.draw(screen)
