@@ -238,11 +238,13 @@ def message_display(mensaje, tamanio = 75, sleep_t = 0.75, cartel_t = 0):
     pygame.display.update()
     sleep(sleep_t)
 
-def check_si_termino_partida(partida):
-    if partida.jugador_actual.puntos >= partida.max_puntos or partida.jugador_contrario.puntos >= partida.max_puntos:
-        return True
-    return False
-
+def check_ganador(partida):
+    if partida.jugador_actual.puntos >= partida.max_puntos:
+        return partida.jugador_actual
+    elif partida.jugador_contrario.puntos >= partida.max_puntos:
+        return partida.jugador_contrario
+    else:
+        return None
 
 def init_partida(nombre_p1, nombre_p2, max_puntos):
     PARTIDASURF.blit(fondo, (0, 0))
@@ -278,19 +280,15 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
     }
 
     while True:
-        if gano == True:
-            message_display(f"{jugador_actual.personaje} gano la partida!", 75, 5, 10)
+        ganador = check_ganador(partida)
+        if gano == True or ganador != None:
+            puntos_display(p1, p2)
+            message_display(f"{ganador.personaje} gano la partida!", 50, 5, 150)
             break
         
         se_puede_cantar_truco = True
 
         if gano_ronda:
-
-            if check_si_termino_partida(partida):
-                gano = True
-                message_display("Gano la partida " + partida.ganador_final_mano.personaje, 35, cartel_t=30)
-                break
-
             gano_ronda = False
             print('Alguien gano la ronda xd') #CArtelito: X jugador gano!
             message_display("Gano la ronda " + partida.ganador_final_mano.personaje, 35, cartel_t=30)
