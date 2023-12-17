@@ -243,8 +243,7 @@ def check_ganador(partida):
         return partida.jugador_actual
     elif partida.jugador_contrario.puntos >= partida.max_puntos:
         return partida.jugador_contrario
-    else:
-        return None
+    return None
 
 def init_partida(nombre_p1, nombre_p2, max_puntos):
     PARTIDASURF.blit(fondo, (0, 0))
