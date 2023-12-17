@@ -8,13 +8,6 @@ fondo = pygame.image.load("img/fondo.jpg")
 
 img_boton = pygame.image.load("img/boton.png")
 
-fotos_pjs = {}
-fotos_pjs["mariachi"] = pygame.image.load("img_personajes/rovi-mexicano.png")
-fotos_pjs["kim-jong-un"] = pygame.image.load("img_personajes/kim-jong-un.png")
-fotos_pjs["fito"] = pygame.image.load("img_personajes/fito.png")
-fotos_pjs["bob"] = pygame.image.load("img_personajes/bob.png")
-fotos_pjs["martu"] = pygame.image.load("img_personajes/martu.png")
-fotos_pjs["riedel"] = pygame.image.load("img_personajes/riedel.png")
 
 #botonsito
 class TextHolder:
@@ -106,11 +99,11 @@ class Screen:
     def set_oponente(self, oponente):
         self.lobby.seleccionar_personaje_oponente(oponente)
 
-jugar_como_fito = Button(150, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("fito", "riedel"), screen.start_match()), img = "fito")
-jugar_como_bob = Button(400, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("bob", "riedel"), screen.start_match()), img = "bob")
-jugar_como_mariachi = Button(650, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("mariachi", "riedel"), screen.start_match()), img = "mariachi")
-jugar_como_martu = Button(275, 400, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("martu", "riedel"), screen.start_match()), img = "martu")
-jugar_como_kim = Button(525, 400, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("kim-jong-un", "riedel"), screen.start_match()), img = "kim-jong-un")
+jugar_como_fito = Button(150, 150, 200, 200, (255, 0, 0), "" ,lambda : (sonidos_pjs["fito"].play(), screen.setPlayers("fito", "riedel"), screen.start_match()), img = "fito")
+jugar_como_bob = Button(400, 150, 200, 200, (255, 0, 0), "" ,lambda : (sonidos_pjs["bob"].play(), screen.setPlayers("bob", "riedel"), screen.start_match()), img = "bob")
+jugar_como_mariachi = Button(650, 150, 200, 200, (255, 0, 0), "" ,lambda : (sonidos_pjs["mariachi"].play(), screen.setPlayers("mariachi", "riedel"), screen.start_match()), img = "mariachi")
+jugar_como_martu = Button(275, 400, 200, 200, (255, 0, 0), "" ,lambda : (sonidos_pjs["martu"].play(), screen.setPlayers("martu", "riedel"), screen.start_match()), img = "martu")
+jugar_como_kim = Button(525, 400, 200, 200, (255, 0, 0), "" ,lambda : (sonidos_pjs["kim-jong-un"].play(), screen.setPlayers("kim-jong-un", "riedel"), screen.start_match()), img = "kim-jong-un")
 play_game = TextHolder(20,100, 600, 150, "Choose your fighter:", (255,255,255))
 
 
@@ -151,7 +144,7 @@ def play_screen(screen, question, default_value, action):
 from time import sleep 
 
 def lobby_main():
-
+    lobby_music.play()
     while screen.is_running():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -168,6 +161,7 @@ def lobby_main():
             screen.display()
 
     if (screen.starting == True):
+        lobby_music.stop()
         screen.lobby.iniciar_partida()
     #    quit_button.draw(screen)
     #    popup_button.draw(screen)
