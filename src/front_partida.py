@@ -108,8 +108,13 @@ def puntos_display(jugador_1, jugador_2):
     PARTIDASURF.blit(hoja_puntos, (SCREEN_WIDTH/25, SCREEN_HEIGHT/25))
 
     # Cuadrados
-    pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/20, SCREEN_HEIGHT/20, PICTURE_SIZE, PICTURE_SIZE), 3, 10)
-    pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/20 + PICTURE_SIZE + 20, SCREEN_HEIGHT/20, PICTURE_SIZE, PICTURE_SIZE), 3, 10)
+    jugador_rect = pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/20, SCREEN_HEIGHT/20, PICTURE_SIZE, PICTURE_SIZE), 3, 10)
+    imagen_jugador = pygame.transform.scale(fotos_pjs[jugador_1.personaje], (PICTURE_SIZE, PICTURE_SIZE))
+    PARTIDASURF.blit(imagen_jugador, jugador_rect)
+
+    riedel_rect = pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/20 + PICTURE_SIZE + 20, SCREEN_HEIGHT/20, PICTURE_SIZE, PICTURE_SIZE), 3, 10)
+    imagen_riedel = pygame.transform.scale(fotos_pjs[jugador_2.personaje], (PICTURE_SIZE, PICTURE_SIZE))
+    PARTIDASURF.blit(imagen_riedel, riedel_rect)
     
     # Nombres
     PARTIDASURF.blit(button_font.render(f'{jugador_1}', True, BLACK), (SCREEN_WIDTH/20, SCREEN_HEIGHT/20 + PICTURE_SIZE + 20))
@@ -270,6 +275,8 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
     real_envio_cantado = False
     falta_envido_cantado = False
 
+    riedel_juega_por_primera_vez = True
+
     truco_etapas = ["VALE_CUATRO", "RETRUCO", "TRUCO"]
 
     truco_botones_a_etapas = {
@@ -277,6 +284,8 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
         "RETRUCO" : "Re Truco",
         "VALE_CUATRO" : "Vale Cuatro"
     }
+
+    truco_music.play(50)
 
     while True:
         ganador = check_ganador(partida)
@@ -387,12 +396,22 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     partida.cantar_envido("FALTAENVIDO")
 
                 elif flor_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado:
+                    webbrowser.open('https://youtu.be/vdfCUkJRfxg')
                     print("Canto flor")
                 
                 elif mazo_button_pos.collidepoint(event.pos):
+                    message_display(jugador_actual.personaje + " se fue al mazo", 30, sleep_t=1.3, cartel_t=30)
+                    if partida.truco_actual != None:
+                        partida.truco_actual.aceptar_truco()
+
+                    partida.ganador_final_mano = jugador_oponente
+                    gano_ronda = True
                     print("Mazo")
                 elif salir_button_pos.collidepoint(event.pos):
-                    print("Salir")
+                    webbrowser.open('https://youtu.be/uHgt8giw1LY')
+                    
+                    return
+                    
                 
 
                 # Check botones de envido
@@ -455,6 +474,8 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         message_display(jugador_actual.personaje + " no quiso", 30, sleep_t=1.3, cartel_t=30)
 
                         puntos = partida.truco_actual.rechazar_truco()
+                        print("puntos: ", puntos)
+                        jugador_oponente.sumar_puntos(puntos-1)
                         #partida.truco_actual = None
                         se_canto_truco = False
                         partida.ganador_final_mano = jugador_oponente
@@ -476,6 +497,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 
                 if coto_boton.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
+
 
                 if not event.button == 1:
                     continue
@@ -500,6 +522,11 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     arrastrando_carta = False
 
                     if mesa_pos.collidepoint(event.pos):
+
+                        if riedel_juega_por_primera_vez and jugador_actual == p2:
+                            riedel_juega_por_primera_vez = False
+                            sonidos_pjs["riedel"].play()
+
                         partida.jugar_carta(carta_seleccionada)
                         if p2 == jugador_actual:
                             se_puede_cantar_envido = False

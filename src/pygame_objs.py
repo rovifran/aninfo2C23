@@ -131,3 +131,26 @@ fosforos_5 = pygame.transform.scale(fosforos_5, (PICTURE_SIZE*3/4, PICTURE_SIZE*
 
 fosforos = [fosforos_1, fosforos_2, fosforos_3, fosforos_4, fosforos_5]
 coto_boton = pygame.Rect(SCREEN_WIDTH*(1-1/4) + 10, SCREEN_HEIGHT*6/10, SCREEN_WIDTH/5, SCREEN_HEIGHT/3)
+
+fotos_pjs = {}
+fotos_pjs["mariachi"] = pygame.image.load("img_personajes/rovi-mexicano.png")
+fotos_pjs["kim-jong-un"] = pygame.image.load("img_personajes/kim-jong-un.png")
+fotos_pjs["fito"] = pygame.image.load("img_personajes/fito.png")
+fotos_pjs["bob"] = pygame.image.load("img_personajes/bob.png")
+fotos_pjs["martu"] = pygame.image.load("img_personajes/martu.png")
+fotos_pjs["riedel"] = pygame.image.load("img_personajes/riedel.png")
+
+
+sonidos_pjs = {}
+sonidos_pjs["mariachi"] = pygame.mixer.Sound(("sound/mariachi_sounds.mp3"))
+sonidos_pjs["kim-jong-un"] = pygame.mixer.Sound(("sound/kim_sounds.wav"))
+sonidos_pjs["fito"] = pygame.mixer.Sound(("sound/fito_sounds.wav"))
+sonidos_pjs["bob"] = pygame.mixer.Sound(("sound/bob_sounds.mp3"))
+sonidos_pjs["martu"] = pygame.mixer.Sound(("sound/martu_sounds.mp3"))
+sonidos_pjs["riedel"] = pygame.mixer.Sound(("sound/riedel_sounds.mp3"))
+
+truco_music = pygame.mixer.Sound(("sound/truco_music.mp3"))
+truco_music.set_volume(0.5)
+
+lobby_music = pygame.mixer.Sound(("sound/lobby_music.mp3"))
+lobby_music.set_volume(0.5)

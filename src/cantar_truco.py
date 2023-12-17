@@ -18,6 +18,8 @@ class Truco:
 
 
     def calcular_puntos(self) -> int:
+        print("FASE ACTUAL: ", self.fase)
+        print("FASE ANTERIOR: ", self.fase_anterior)
         if self.fue_aceptado():
             return PUNTOS_Y_FASES[self.fase]
         return PUNTOS_Y_FASES[self.fase_anterior]
