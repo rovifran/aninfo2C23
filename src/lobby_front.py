@@ -9,7 +9,7 @@ fondo = pygame.image.load("img/fondo.jpg")
 img_boton = pygame.image.load("img/boton.png")
 
 fotos_pjs = {}
-fotos_pjs["rovi"] = pygame.image.load("img_personajes/rovi-mexicano.png")
+fotos_pjs["mariachi"] = pygame.image.load("img_personajes/rovi-mexicano.png")
 fotos_pjs["kim-jong-un"] = pygame.image.load("img_personajes/kim-jong-un.png")
 fotos_pjs["fito"] = pygame.image.load("img_personajes/fito.png")
 fotos_pjs["bob"] = pygame.image.load("img_personajes/bob.png")
@@ -64,7 +64,7 @@ class Screen:
         self.running = True
         self.starting = False
 
-        self.lobby.seleccionar_personaje("rovi")
+        self.lobby.seleccionar_personaje("mariachi")
         self.lobby.seleccionar_personaje_oponente("riedel")
 
     def start_match(self):
@@ -108,7 +108,7 @@ class Screen:
 
 jugar_como_fito = Button(150, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("fito", "riedel"), screen.start_match()), img = "fito")
 jugar_como_bob = Button(400, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("bob", "riedel"), screen.start_match()), img = "bob")
-jugar_como_rovi_mejicano = Button(650, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("rovi", "riedel"), screen.start_match()), img = "rovi")
+jugar_como_mariachi = Button(650, 150, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("mariachi", "riedel"), screen.start_match()), img = "mariachi")
 jugar_como_martu = Button(275, 400, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("martu", "riedel"), screen.start_match()), img = "martu")
 jugar_como_kim = Button(525, 400, 200, 200, (255, 0, 0), "" ,lambda : (screen.setPlayers("kim-jong-un", "riedel"), screen.start_match()), img = "kim-jong-un")
 play_game = TextHolder(20,100, 600, 150, "Choose your fighter:", (255,255,255))
@@ -117,7 +117,7 @@ play_game = TextHolder(20,100, 600, 150, "Choose your fighter:", (255,255,255))
 widgets_for_screen_3 = [
     jugar_como_fito,
     jugar_como_bob,
-    jugar_como_rovi_mejicano,
+    jugar_como_mariachi,
     jugar_como_martu,
     jugar_como_kim,
     play_game
