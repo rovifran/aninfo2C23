@@ -1,7 +1,7 @@
 import random
+from typing import Tuple, List
 
 from cartas import *
-from typing import Tuple, List
 
 
 class Mazo():
@@ -73,7 +73,7 @@ class Mazo():
             - Las cartas del mazo quedan mezcladas
         """
         random.shuffle(self.cartas)
-    
+
     def repartir(self) -> Tuple[List["Carta"], List["Carta"]]:
         """
         Reparte las cartas del mazo en dos manos de 3 cartas cada una

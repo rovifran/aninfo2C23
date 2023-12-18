@@ -1,13 +1,16 @@
 import sys
+
 sys.path.append('../')
 
 from mazo import Mazo
 
 ITERACIONES_MANOS = 100
 
+
 def test_1_mazo_se_instancia_correctamente():
     mazo_ = Mazo()
     assert mazo_ != None
+
 
 def test_2_entre_dos_mazos_no_hay_repetidos():
     mazo_ = Mazo()
@@ -18,11 +21,13 @@ def test_2_entre_dos_mazos_no_hay_repetidos():
         assert set1 - set2 == set1
         assert set2 - set1 == set2
 
+
 def main_test_mazo():
     print("Corriendo tests de mazo...")
     test_1_mazo_se_instancia_correctamente()
     test_2_entre_dos_mazos_no_hay_repetidos()
     print("\x1b[32mTodos los tests de mazo pasaron exitosamente!\x1b[0m")
+
 
 if __name__ == '__main__':
     main_test_mazo()

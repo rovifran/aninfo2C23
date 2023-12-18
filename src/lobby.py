@@ -1,7 +1,7 @@
-
 import front_partida as truco
 
-class Lobby(): 
+
+class Lobby():
     """
     Clase que representa al lobby del juego. Este permite al usuario  elegir:
         - Con que personaje jugar
@@ -21,13 +21,13 @@ class Lobby():
         self.puntos = None
         self.partida = None
 
-    def seleccionar_personaje(self, personaje: str) -> None: 
+    def seleccionar_personaje(self, personaje: str) -> None:
         """
         Recibe un string con el nombre del personaje y lo asigna al atributo personaje
         """
         self.personaje = personaje
-    
-    def seleccionar_personaje_oponente(self, personaje: str) -> None: 
+
+    def seleccionar_personaje_oponente(self, personaje: str) -> None:
         """
         Recibe un string con el nombre del personaje y lo asigna al atributo personaje_oponente
         """
@@ -51,30 +51,15 @@ class Lobby():
             raise CamposIncompletos("Faltan campos por completar")
 
         truco.init_partida(self.personaje, self.personaje_oponente, self.puntos)
-        
+
 
 class PuntosInvalidosError(Exception):
     def __init__(self, mensaje: str) -> None:
         self.mensaje = mensaje
         super().__init__(self.mensaje)
 
+
 class CamposIncompletos(Exception):
     def __init__(self, mensaje: str) -> None:
         self.mensaje = mensaje
         super().__init__(self.mensaje)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
