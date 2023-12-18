@@ -22,7 +22,11 @@ class Jugador:
     Juega una carta de su mano y la devuelve.
     """
     def jugar_carta(self, carta) -> cartas:
-        self.cartas.remove(carta)
+        mano = []
+        for carta_mano in self.cartas:
+            if carta != carta_mano:
+                mano.append(carta_mano)
+        self.cartas = mano
         return carta
     
     """

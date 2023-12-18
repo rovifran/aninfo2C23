@@ -112,7 +112,7 @@ class _Carta:
         """
         Sobrecarga el operador == para comparar dos cartas segun su prioridad
         """
-        return self._prioridad == otra._prioridad
+        return self.numero == otra.numero and self.palo == otra.palo
     
     def __lt__(self, otra: '_Carta') -> bool:
         """
