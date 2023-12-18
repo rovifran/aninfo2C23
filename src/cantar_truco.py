@@ -10,11 +10,12 @@ PUNTOS_Y_FASES = {
 
 class Truco:
 
-    def __init__(self, fase) -> None:
+    def __init__(self, fase, jugador) -> None:
         self.fase = fase
         self.aceptado = False
         self.fase_anterior = "NO_QUIERO"
         self.ultimo_que_canto = None
+        self.canto_truco = jugador
 
 
     def calcular_puntos(self) -> int:
@@ -38,3 +39,6 @@ class Truco:
 
     def fue_aceptado(self):
         return self.aceptado
+    
+    def obtener_canto_truco(self):
+        return self.canto_truco
