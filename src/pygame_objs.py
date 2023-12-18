@@ -154,3 +154,7 @@ truco_music.set_volume(0.5)
 
 lobby_music = pygame.mixer.Sound(("sound/lobby_music.mp3"))
 lobby_music.set_volume(0.5)
+
+
+
+

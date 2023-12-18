@@ -201,7 +201,6 @@ def mostrar_opciones_truco(partida):
 def mostrar_opciones_envido(partida, envido_envido_cantado, real_envido_cantado, falta_envido_cantado):
      if partida.envido_actual != None:
         # Botones de envido
-        # draw a rect behin the buttons
         pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
         pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
         render_boton(PARTIDASURF, envido_quiero_button_pos, 'Quiero')
@@ -225,7 +224,9 @@ def mostrar_opciones_envido(partida, envido_envido_cantado, real_envido_cantado,
             render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
         
         fase = partida.envido_actual.fase
-        canto = fase.split("_")[-1].lower()
+
+        canto = "falta envido" if partida.envido_actual.es_falta_envido else fase.split("_")[-1].lower()
+
         message_display(partida.jugador_contrario.personaje + " cantó " + canto, 35, 0)
 
 def text_objects(text, font):
@@ -264,7 +265,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
     arrastrando_carta = False
     carta_seleccionada_surf = None
     carta_seleccionada = None
-    pos_original = None
 
     se_puede_cantar_truco = True
     se_canto_truco = False
@@ -298,7 +298,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
         if gano_ronda:
             gano_ronda = False
-            print('Alguien gano la ronda xd') #CArtelito: X jugador gano!
             message_display("Gano la ronda " + partida.ganador_final_mano.personaje, 35, cartel_t=30)
             
             #Borrar cartelito
@@ -358,11 +357,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
             # drag cartas
             if event.type == pygame.MOUSEBUTTONDOWN:
-                print(f"cartas de {p1}: {p1.cartas} ")
-                print(f"cartas de {p2}: {p2.cartas} ")
-
-
-                print(f"cartas en mesa: {mesa.cartas_jugadas} ")
                 card_down_sound.play()
                 
                 # Check si toco boton
@@ -380,28 +374,23 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     partida.cantar_truco(truco_a_llamar)
                     se_canto_truco  = True
                     se_puede_cantar_tantos = False
-                    print("Canto " + partida.truco_actual.fase)
 
                 elif envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envido_cantado and not envido_envido_cantado:
-                    print("Canto envido")
                     envido_cantado = True
                     partida.cantar_envido("ENVIDO")
                 
                 elif real_envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envido_cantado:
-                    print("Real Envido")
                     envido_cantado = True
                     real_envido_cantado = True
                     partida.cantar_envido("REALENVIDO")
 
                 elif falta_envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado:
-                    print("Falta Envido")
                     envido_cantado = True
                     falta_envido_cantado = True
                     partida.cantar_envido("FALTAENVIDO")
 
                 elif flor_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado:
                     webbrowser.open('https://youtu.be/vdfCUkJRfxg')
-                    print("Canto flor")
                 
                 elif mazo_button_pos.collidepoint(event.pos):
                     message_display(jugador_actual.personaje + " se fue al mazo", 30, sleep_t=1.3, cartel_t=30)
@@ -410,7 +399,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
                     partida.ganador_final_mano = jugador_oponente
                     gano_ronda = True
-                    print("Mazo")
                 elif salir_button_pos.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
                     
@@ -419,15 +407,12 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 # Check botones de envido
                 if se_puede_cantar_tantos and envido_cantado:
                     if envido_quiero_button_pos.collidepoint(event.pos) and partida.envido_actual != None:
-                        print("Quiero envido")
                         res = partida.aceptar_envido()
-                        print(res)
                         se_puede_cantar_tantos = False
                         message_display("Gano el envido " + res.ganador.personaje + " con " + str(res.puntos_ganador) + " puntos", 20, sleep_t=1.3, cartel_t=30)
                         message_display("Perdio el envido " + res.perdedor.personaje + " con " + str(res.puntos_perdedor) + " puntos", 20, sleep_t=1.3, cartel_t=30)
 
                     elif envido_no_quiero_button_pos.collidepoint(event.pos) and partida.envido_actual != None:
-                        print("No quiero envido")
                         puntos = partida.envido_actual.rechazar_envido()
                         jugador_oponente.sumar_puntos(puntos)
                         se_puede_cantar_tantos = False
@@ -435,20 +420,17 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         partida._resetear_envido()
 
                     elif envido_envido_button_pos.collidepoint(event.pos) and partida.envido_actual != None and not falta_envido_cantado and not real_envido_cantado and not envido_envido_cantado:
-                        print("Envido")
                         
                         envido_envido_cantado = True
                         partida.cantar_envido("ENVIDO")
 
                     elif envido_real_envido_button_pos.collidepoint(event.pos) and partida.envido_actual != None and not falta_envido_cantado and not real_envido_cantado:
-                        print("Real Envido")
                         
                         real_envido_cantado = True
                         partida.envido_actual.aceptar_envido()
                         partida.cantar_envido("REALENVIDO")
 
                     elif envido_falta_envido_button_pos.collidepoint(event.pos) and partida.envido_actual != None and not falta_envido_cantado:
-                        print("Falta Envido")
                         
                         falta_envido_cantado = True
                         partida.envido_actual.aceptar_envido()
@@ -456,7 +438,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
                 if se_canto_truco:
                     if truco_quiero_button_pos.collidepoint(event.pos):
-                        print("Quiero truco")
                         se_canto_truco = False
                         if truco_etapas == []:
                             jugador_oponente.canto_truco_actual = "-"
@@ -466,22 +447,16 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         message_display(jugador_actual.personaje + " quiso", 30, sleep_t=1.3, cartel_t=30)
                         partida.aceptar_truco()
                         
-                        #partida.truco_actual = None
-
                     elif truco_no_quiero_button_pos.collidepoint(event.pos):
-                        print("No quiero truco")
                         message_display(jugador_actual.personaje + " no quiso", 30, sleep_t=1.3, cartel_t=30)
 
                         puntos = partida.truco_actual.rechazar_truco()
-                        print("puntos: ", puntos)
                         jugador_oponente.sumar_puntos(puntos-1)
-                        #partida.truco_actual = None
                         se_canto_truco = False
                         partida.ganador_final_mano = jugador_oponente
                         gano_ronda = True
                     
                     elif truco_re_truco_button_pos.collidepoint(event.pos) and jugador_actual.canto_truco_actual == "RETRUCO":
-                        print("Re Truco")
                         truco_etapas.pop()
                         
                         jugador_oponente.canto_truco_actual = "VALE_CUATRO"
@@ -489,7 +464,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         partida.cantar_truco("RETRUCO")
                         
                     elif truco_vale_cuatro_button_pos.collidepoint(event.pos) and jugador_actual.canto_truco_actual == "VALE_CUATRO":
-                        print("Vale Cuatro")
                         jugador_actual.canto_truco_actual = "-"
                         truco_etapas.pop()
                         partida.cantar_truco("VALE_CUATRO")
@@ -527,8 +501,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                             riedel_juega_por_primera_vez = False
                             sonidos_pjs["riedel"].play()
 
-                        print("Jugo carta ", carta_seleccionada)
-
                         partida.jugar_carta(carta_seleccionada)
 
 
@@ -551,3 +523,20 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 carta_seleccionada_surf.center = (pygame.mouse.get_pos()[0] - offset_x, pygame.mouse.get_pos()[1] - offset_y)
                
         pygame.display.update()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

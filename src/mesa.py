@@ -1,4 +1,3 @@
-#import jugador
 
 class Mesa:
     """
@@ -48,8 +47,6 @@ class Mesa:
         [[c1,c2][c4,c3][]] #las sublistas estarian ordenadas para graficar arriba la mas grande
         """
         
-        # self.cartas_jugadas.append(self.mano_actual)
-        
         if len(self.mano_actual) > 0:
             self.mano_actual.append((carta, jugador))
             self.ganador_mano = self.compararCartas()
@@ -62,16 +59,6 @@ class Mesa:
                 mano.append((carta, jugador))
                 self.mano_actual = mano
                 break
-            
-            # if len(mano) == 1:
-                
-            #     self.mano_actual = mano
-            #     self.ganador_mano = self.compararCartas()
-            #     self.mano_actual = []
-            #     break
-
-        print("cartas jugadas")
-        print(self.cartas_jugadas)
 
     def manoActualEstaCompleta(self):
         """
@@ -116,3 +103,7 @@ class Mesa:
             - Se devuelve el ganador de la mano
         """
         return self.ganador_mano
+    
+
+
+    
