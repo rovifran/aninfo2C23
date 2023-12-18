@@ -15,9 +15,9 @@ Para poder jugar al Truco en tu computadora, se deben seguir estos pasos:
 
 1. El pimer requisito es tener instalado Python 3.x en tu sistema. Se puede descargar la última versión desde [python.org](https://www.python.org/).
 
-2. Tambien es necesario tener la ultima version de Pygame, se puede instalar ejecutando el siguiente comando en la terminal:
+2. Para instalar las librerias necesarias para correr el juego, es necesario ejecutar el siguiente comando:
    ```bash
-   pip install pygame
+   pip install -r requirements.txt
    ```   
 ## Como correr el proyecto
 Clona este repositorio en tu máquina:
