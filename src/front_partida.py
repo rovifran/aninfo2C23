@@ -399,6 +399,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
                     partida.ganador_final_mano = jugador_oponente
                     gano_ronda = True
+
                 elif salir_button_pos.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
                     

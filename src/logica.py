@@ -1,10 +1,11 @@
-import mazo 
+import mazo
 import envido
 import cantar_truco as truco
 from mesa import Mesa
 from jugador import Jugador
 
 PUNTOS_RONDA_SIMPLE = 1
+
 
 class Partida:
     """
@@ -15,6 +16,7 @@ class Partida:
     * Cambiar el turno de los jugadores despues de tirar una carta
     * Determinar el ganador de una ronda
     """
+
     def __init__(self, j1: Jugador, j2: Jugador, max_puntos: int, mesa: Mesa) -> None:
         """
         Inicializa la partida de truco, recibiendo:
@@ -43,9 +45,10 @@ class Partida:
         """
         self.jugador_actual = j1
         self.jugador_contrario = j2
-        self.jugador_mano = j2 # para ver cosas como quien gano en el envido si empatan, o si se empardan las 3 manos
+        self.jugador_mano = j2  # para ver cosas como quien gano en el envido si empatan, o si se empardan las 3 manos
         self.jugador_canto_envido = None
         self.ganador_por_mano = []
+        self.hubo_envido = False
         self.envido_actual = None
         self.truco_actual = None
         self.ganador_final_mano = None
@@ -81,9 +84,9 @@ class Partida:
         """
         Devuelve el jugador que no tiene el turno actual
         """
-        
+
         return self.jugador_contrario
-    
+
     def jugar_carta(self, carta: "Carta") -> None:
         """
         Hace que el jugador actual juegue una carta, y la mesa la reciba.
@@ -101,12 +104,12 @@ class Partida:
         * Si la mano no esta completa, cambia el turno del jugador actual
         * Si la mano esta completa, verifica quien gano la mano para cambiar el turno o no
         """
-        
+
         self.mesa.recibirCarta(self.jugador_actual.jugar_carta(carta), self.jugador_actual)
 
         if not self.mesa.manoActualEstaCompleta():
             self.cambiar_turno()
-        
+
         else:
             ganador_mano = self.mesa.getGanador()
             self.ganador_por_mano.append(ganador_mano)
@@ -129,15 +132,17 @@ class Partida:
         * `self.envido` es una instancia de la clase `Envido` que representa el envido actual
         * Se cambia el turno de los jugadores
         """
-        
+
         if self.jugador_canto_envido == None:
             self.jugador_canto_envido = self.jugador_actual
-            self.envido_actual = envido.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido, self.max_puntos)
+            self.envido_actual = envido.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido,
+                                               self.max_puntos)
             self.cambiar_turno()
 
         else:
             if self.envido_actual.actualizar(tipo_envido):
                 self.cambiar_turno()
+        self.hubo_envido = True
 
     def _resetear_envido(self) -> None:
         """
@@ -158,7 +163,7 @@ class Partida:
             self.cambiar_turno()
 
         self.envido_actual = None
-        self.jugador_canto_envido = None        
+        self.jugador_canto_envido = None
 
     def aceptar_envido(self) -> envido.ResultadoEnvido:
         """
@@ -176,15 +181,15 @@ class Partida:
         * Se devuelve el resultado del envido actual
         * Se suman los puntos correspondientes al jugador ganador
         """
-        
-        res_envido = self.envido_actual.aceptar_envido()        
+
+        res_envido = self.envido_actual.aceptar_envido()
         if res_envido.ganador == None:
             if res_envido.puntos_a_sumar == None:
                 contrincante = self.jugador_contrario if self.jugador_mano == self.jugador_actual else self.jugador_actual
                 self.jugador_mano.sumar_puntos(self.max_puntos - contrincante.obtener_puntos())
             else:
                 self.jugador_mano.sumar_puntos(res_envido.puntos_a_sumar)
-        else: 
+        else:
             res_envido.ganador.sumar_puntos(res_envido.puntos_a_sumar)
 
         self._resetear_envido()
@@ -230,7 +235,7 @@ class Partida:
             self.truco_actual = truco.Truco(tipo_truco, self.jugador_actual)
         else:
             self.truco_actual.actualizar(tipo_truco)
-        
+
         self.cambiar_turno()
 
     def aceptar_truco(self) -> None:
@@ -246,13 +251,12 @@ class Partida:
 
         * Se cambian los turnos de ser necesario
         """
-        
-        self.truco_actual.aceptar_truco()
 
+        self.truco_actual.aceptar_truco()
 
         if self.jugador_actual == self.truco_actual.obtener_canto_truco():
             return
-        self.cambiar_turno() # cuidado que esto puede fallar 
+        self.cambiar_turno()  # cuidado que esto puede fallar
 
     def _resetear_truco(self) -> None:
         """
@@ -262,7 +266,7 @@ class Partida:
 
         * `self.truco_actual` es `None`
         """
-        
+
         self.truco_actual = None
 
     def rechazar_truco(self) -> None:
@@ -281,7 +285,6 @@ class Partida:
         puntos = self.truco_actual.rechazar_truco()
         self.jugador_contrario.sumar_puntos(puntos)
         self.cambiar_turno()
-
 
     def iniciar_mano(self) -> None:
         """
@@ -319,11 +322,9 @@ class Partida:
         self.jugador_actual.recibir_cartas(mano_j1)
         self.jugador_contrario.recibir_cartas(mano_j2)
 
-    
     def ronda_esta_terminada(self):
-        return self.ganador_final_mano != None 
-    
-    
+        return self.ganador_final_mano != None
+
     def sumar_puntos_a_ganador(self) -> None:
         """
         Al finalizar una ronda, suma los puntos correspondientes al jugador ganador
@@ -342,15 +343,18 @@ class Partida:
 
         if not self.ronda_esta_terminada():
             return
-        
+
         if self.truco_actual and self.truco_actual.fue_aceptado():
             puntos = self.truco_actual.calcular_puntos()
             self.ganador_final_mano.sumar_puntos(puntos)
             self._resetear_truco()
             return
 
-        self.ganador_final_mano.sumar_puntos(PUNTOS_RONDA_SIMPLE)
+        if not self.truco_actual and not self.hubo_envido:
+            self.ganador_final_mano.sumar_puntos(2)
+            return
 
+        self.ganador_final_mano.sumar_puntos(PUNTOS_RONDA_SIMPLE)
 
     def hay_ganador_ronda(self) -> None:
         """
@@ -375,79 +379,85 @@ class Partida:
 
         * `self.ganador_final_mano` es el jugador que gano la ronda, None si todavia no hay ganador
         """
+
         def _triple_parda():
             """
             Devuelve si hubo triple parda en la ronda
             """
-            
-            return len(self.ganador_por_mano) == 3 and not self.jugador_actual in self.ganador_por_mano and not self.jugador_contrario in self.ganador_por_mano
+
+            return len(
+                self.ganador_por_mano) == 3 and not self.jugador_actual in self.ganador_por_mano and not self.jugador_contrario in self.ganador_por_mano
 
         def _mismo_ganador_primeras_dos_manos() -> bool:
             """
             Devuelve si el mismo jugador gano las primeras dos manos
             """
-            
+
             return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] == self.ganador_por_mano[1]
 
         def _parda_solo_en_segunda_mano() -> bool:
             """
             Devuelve si hubo parda solo en la segunda mano y alguien gano la primera
             """
-            
-            return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] != None and self.ganador_por_mano[1] == None
+
+            return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] != None and self.ganador_por_mano[
+                1] == None
 
         def _ganador_en_tercera_mano_por_todo_parda() -> bool:
             """
             Devuelve si alguien gano la tercera mano y las dos primeras fueron parda
             """
-            
-            return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] == None and self.ganador_por_mano[1] == None and self.ganador_por_mano[2] != None
-        
+
+            return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] == None and self.ganador_por_mano[
+                1] == None and self.ganador_por_mano[2] != None
+
         def _parda_solo_en_primera_mano() -> bool:
             """
             Devuelve si hubo parda solo en la primera mano y alguien gano la segunda
             """
-            
-            return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] == None and self.ganador_por_mano[1] != None
-            
+
+            return len(self.ganador_por_mano) == 2 and self.ganador_por_mano[0] == None and self.ganador_por_mano[
+                1] != None
+
         def _ganador_en_tercera_mano_sin_parda() -> bool:
             """
             Devuelve si alguien gano la tercera mano y ninguna de las dos primeras fueron parda
             """
-            
-            return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] != None and self.ganador_por_mano[1] != None and self.ganador_por_mano[2] != None
-        
+
+            return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] != None and self.ganador_por_mano[
+                1] != None and self.ganador_por_mano[2] != None
+
         def _ganador_en_tercera_mano_por_parda() -> bool:
             """
             Devuelve si alguien gano la tercera mano siendo esta ultima parda
             """
-            
-            return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] != None and self.ganador_por_mano[1] != None and self.ganador_por_mano[0] != self.ganador_por_mano[1]  and self.ganador_por_mano[2] == None
-        
+
+            return len(self.ganador_por_mano) == 3 and self.ganador_por_mano[0] != None and self.ganador_por_mano[
+                1] != None and self.ganador_por_mano[0] != self.ganador_por_mano[1] and self.ganador_por_mano[2] == None
+
         if len(self.ganador_por_mano) <= 1:
             return
 
         if _parda_solo_en_primera_mano():
             self.ganador_final_mano = self.ganador_por_mano[1]
             return
-          
+
         if _triple_parda():
             self.ganador_final_mano = self.jugador_mano
-            return    
-                 
+            return
+
         if _parda_solo_en_segunda_mano():
             self.ganador_final_mano = self.ganador_por_mano[0]
             return
-        
+
         if _mismo_ganador_primeras_dos_manos():
             self.ganador_final_mano = self.ganador_por_mano[0]
             return
-        
-        if _ganador_en_tercera_mano_por_todo_parda() or _ganador_en_tercera_mano_sin_parda(): 
+
+        if _ganador_en_tercera_mano_por_todo_parda() or _ganador_en_tercera_mano_sin_parda():
             self.ganador_final_mano = self.ganador_por_mano[2]
             return
-        
+
         if _ganador_en_tercera_mano_por_parda():
             self.ganador_final_mano = self.ganador_por_mano[0]
             return
-        
