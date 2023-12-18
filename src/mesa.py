@@ -70,9 +70,6 @@ class Mesa:
             #     self.mano_actual = []
             #     break
 
-        print("cartas jugadas")
-        print(self.cartas_jugadas)
-
     def manoActualEstaCompleta(self):
         """
         Devuelve True si la mano actual esta completa, False en caso contrario.

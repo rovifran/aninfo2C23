@@ -228,8 +228,6 @@ class Partida:
 
         if not self.truco_actual:
             self.truco_actual = truco.Truco(tipo_truco, self.jugador_actual)
-            print(self.jugador_actual)
-
         else:
             self.truco_actual.actualizar(tipo_truco)
         

@@ -13,7 +13,6 @@ import webbrowser
 from lobby_front import lobby_main
 
 def main():
-    print("Bienvenido a Truco Argentino")
     lobby_main()
 
 main()
