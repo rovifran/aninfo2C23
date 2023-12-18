@@ -227,7 +227,8 @@ class Partida:
         """
 
         if not self.truco_actual:
-            self.truco_actual = truco.Truco(tipo_truco)
+            self.truco_actual = truco.Truco(tipo_truco, self.jugador_actual)
+            print(self.jugador_actual)
 
         else:
             self.truco_actual.actualizar(tipo_truco)
@@ -249,6 +250,10 @@ class Partida:
         """
         
         self.truco_actual.aceptar_truco()
+
+
+        if self.jugador_actual == self.truco_actual.obtener_canto_truco():
+            return
         self.cambiar_turno() # cuidado que esto puede fallar 
 
     def _resetear_truco(self) -> None:
