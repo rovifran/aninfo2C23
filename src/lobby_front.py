@@ -3,7 +3,6 @@ from lobby import Lobby
 pygame.init()
 from pygame_objs import *
 
-
 fondo = pygame.image.load("img/fondo.jpg")
 
 img_boton = pygame.image.load("img/boton.png")
@@ -23,6 +22,7 @@ class TextHolder:
     def is_clicked(self, pos):
         return False
 
+
 class Button:
     def __init__(self, x, y, width, height, color, text, action, img=None):
         self.rect = pygame.Rect(x, y, width, height)
@@ -36,7 +36,6 @@ class Button:
         scaled_img = pygame.transform.scale(fotos_pjs.get(self.img, img_boton), (self.rect.width, self.rect.height))
         
         pygame_screen.blit(scaled_img, self.rect)
-        # pygame.draw.rect(pygame_screen, self.color, self.rect)
         font = pygame.font.Font(None, 512//5)
         text = font.render(self.text, True, (49,23,17))
         x = self.rect.x
@@ -50,6 +49,7 @@ class Button:
 
     def is_clicked(self, pos):
         return self.rect.collidepoint(pos)
+
 
 class Screen: 
     def __init__(self, widgets):
@@ -78,7 +78,6 @@ class Screen:
                 widget.action()
 
     def display(self):
-        # self.pygame_screen.fill((0, 0, 0))
         self.pygame_screen.blit(fondo, (0, 0))
 
         for widget in self.widgets:
@@ -118,7 +117,7 @@ widgets_for_screen_3 = [
     play_game
 ]
 
-popup_button = Button(100, 100, 400, 100, (0, 255, 0), "Jugar", lambda: play_screen(screen, "Enter a number:", 0, lambda x: print(f"You entered {x}")))
+popup_button = Button(100, 100, 400, 100, (0, 255, 0), "Jugar", lambda: play_screen(screen))
 quit_button = Button(100, 250, 400, 100, (255, 0, 0), "Salir" , lambda: (screen.stop(), pygame.quit()))
 widgets_for_screen_1 = [quit_button, popup_button]
 
@@ -130,8 +129,9 @@ widgets_for_screen_2 = [hasta_15, hasta_30]
 screen = Screen(widgets_for_screen_1)
 
 
-def play_screen(screen, question, default_value, action):
+def play_screen(screen):
     screen.change_widgets(widgets_for_screen_2)
+
 
 
 def lobby_main():
@@ -149,4 +149,6 @@ def lobby_main():
     if (screen.starting == True):
         lobby_music.stop()
         screen.lobby.iniciar_partida()
+
+
 

@@ -62,3 +62,19 @@ class CamposIncompletos(Exception):
     def __init__(self, mensaje: str) -> None:
         self.mensaje = mensaje
         super().__init__(self.mensaje)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        

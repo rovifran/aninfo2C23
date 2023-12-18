@@ -292,3 +292,5 @@ class Cuatro(_Carta):
         correspondiente al Cuatro.
         """
         super().__init__(ruta, PRIORIDAD_CUATRO)
+
+

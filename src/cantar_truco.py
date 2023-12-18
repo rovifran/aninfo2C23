@@ -40,3 +40,5 @@ class Truco:
     
     def obtener_canto_truco(self):
         return self.canto_truco
+    
+    

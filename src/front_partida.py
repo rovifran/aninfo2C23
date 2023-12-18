@@ -523,3 +523,20 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 carta_seleccionada_surf.center = (pygame.mouse.get_pos()[0] - offset_x, pygame.mouse.get_pos()[1] - offset_y)
                
         pygame.display.update()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
