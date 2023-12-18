@@ -1,6 +1,6 @@
-from jugador import Jugador
-
 from math import floor
+
+from jugador import Jugador
 
 FALTAENVIDO = "FALTAENVIDO"
 
@@ -27,7 +27,9 @@ class ResultadoEnvido:
     * `puntos_perdedor`: Puntos que tiene el perdedor
     * `puntos_a_sumar`: Puntos que se suman al ganador
     """
-    def __init__(self, ganador: Jugador, tantos_ganador: int, perdedor: Jugador, tantos_perdedor: int, puntos_a_sumar: int) -> None:
+
+    def __init__(self, ganador: Jugador, tantos_ganador: int, perdedor: Jugador, tantos_perdedor: int,
+                 puntos_a_sumar: int) -> None:
         """
         Inicializa el resultado del envido
 
@@ -50,13 +52,14 @@ class ResultadoEnvido:
         Devuelve una representacion en string del resultado del envido
         """
         return f"Ganador: {self.ganador}, Puntos Ganador: {self.puntos_ganador}, Perdedor: {self.perdedor}, Puntos Perdedor: {self.puntos_perdedor}, Puntos a sumar: {self.puntos_a_sumar}"
-    
+
     def __repr__(self) -> str:
         """
         Tiene el mismo comportamiento que al llamar a str(envido), esta implementado
         para las distintas estructuras que usan repr en vez de str
         """
         return str(self)
+
 
 class Envido:
     """
@@ -69,6 +72,7 @@ class Envido:
     * `fase`: Fase del envido que se esta jugando
     * `max_puntos`: Puntos a los que se juega
     """
+
     def __init__(self, jugador_canto: Jugador, jugador_oponente: Jugador, fase: str, max_puntos: int) -> None:
         """
         Inicializa el envido
@@ -113,10 +117,10 @@ class Envido:
                         if envido > envido_maximo:
                             envido_maximo = envido
                     elif carta.numero > envido_maximo and carta.numero < 10:
-                        envido_maximo = carta.numero 
-        
+                        envido_maximo = carta.numero
+
         return envido_maximo
-        
+
     def _comparar_tantos(self) -> ResultadoEnvido:
         """
         Se encarga de comparar los tantos de los jugadores y devuelve el resultado del envido.
@@ -140,9 +144,11 @@ class Envido:
         tantos_jugador_oponente = self._calcular_tantos(cartas_jugador_oponente)
 
         if tantos_jugador_canto > tantos_jugador_oponente:
-            return ResultadoEnvido(self.jugador_canto, tantos_jugador_canto, self.jugador_oponente, tantos_jugador_oponente, FASES_Y_PUNTOS[self.fase])
+            return ResultadoEnvido(self.jugador_canto, tantos_jugador_canto, self.jugador_oponente,
+                                   tantos_jugador_oponente, FASES_Y_PUNTOS[self.fase])
         elif tantos_jugador_canto < tantos_jugador_oponente:
-            return ResultadoEnvido(self.jugador_oponente, tantos_jugador_oponente, self.jugador_canto, tantos_jugador_canto, FASES_Y_PUNTOS[self.fase])
+            return ResultadoEnvido(self.jugador_oponente, tantos_jugador_oponente, self.jugador_canto,
+                                   tantos_jugador_canto, FASES_Y_PUNTOS[self.fase])
         else:
             return ResultadoEnvido(None, tantos_jugador_canto, None, tantos_jugador_oponente, FASES_Y_PUNTOS[self.fase])
 
@@ -170,7 +176,6 @@ class Envido:
                 res_envido.puntos_a_sumar = self.max_puntos - res_envido.perdedor.obtener_puntos()
         return res_envido
 
-    
     def rechazar_envido(self) -> int:
         """
         Se encarga de rechazar el envido, en cuyo caso devuelve la cantidad de puntos que se
@@ -188,7 +193,6 @@ class Envido:
             return FASES_Y_PUNTOS[self.fase] + 1
 
         return floor(FASES_Y_PUNTOS[self.fase] / 2)
-        
 
     def _actualizar(self, fase_nueva: str = None) -> None:
         """
@@ -236,9 +240,5 @@ class Envido:
         if fase_nueva in FASES_Y_PUNTOS:
             self._actualizar(fase_nueva)
             return True
-        
+
         return False
-    
-
-
-    

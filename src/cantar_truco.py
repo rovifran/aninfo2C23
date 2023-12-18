@@ -1,4 +1,3 @@
-
 NO_QUIERO = "NO_QUIERO"
 
 PUNTOS_Y_FASES = {
@@ -8,6 +7,7 @@ PUNTOS_Y_FASES = {
     "NO_QUIERO": 1,
 }
 
+
 class Truco:
 
     def __init__(self, fase, jugador) -> None:
@@ -16,7 +16,6 @@ class Truco:
         self.fase_anterior = "NO_QUIERO"
         self.ultimo_que_canto = None
         self.canto_truco = jugador
-
 
     def calcular_puntos(self) -> int:
         if self.fue_aceptado():
@@ -37,8 +36,6 @@ class Truco:
 
     def fue_aceptado(self):
         return self.aceptado
-    
+
     def obtener_canto_truco(self):
         return self.canto_truco
-    
-    

@@ -1,4 +1,3 @@
-
 class Mesa:
     """
     Clase que representa la mesa de juego del Truco Argentino.
@@ -15,8 +14,7 @@ class Mesa:
         self.jugadores = []
         self.cartas_jugadas = [[]]
         self.ganador_mano = None
-        
- 
+
     def recibirCarta(self, carta, jugador):
         """
         Recibe la carta jugada por el jugador y la agrega a la mesa.
@@ -46,7 +44,7 @@ class Mesa:
 
         [[c1,c2][c4,c3][]] #las sublistas estarian ordenadas para graficar arriba la mas grande
         """
-        
+
         if len(self.mano_actual) > 0:
             self.mano_actual.append((carta, jugador))
             self.ganador_mano = self.compararCartas()
@@ -85,7 +83,7 @@ class Mesa:
         """
         carta1, jugador1 = self.mano_actual[0]
         carta2, jugador2 = self.mano_actual[1]
-        
+
         if carta1 > carta2:
             return jugador1
         if carta1 < carta2:
@@ -103,7 +101,3 @@ class Mesa:
             - Se devuelve el ganador de la mano
         """
         return self.ganador_mano
-    
-
-
-    

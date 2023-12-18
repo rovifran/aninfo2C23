@@ -1,8 +1,8 @@
-import mazo
-import envido
 import cantar_truco as truco
-from mesa import Mesa
+import envido
+import mazo
 from jugador import Jugador
+from mesa import Mesa
 
 PUNTOS_RONDA_SIMPLE = 1
 
