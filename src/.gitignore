@@ -2,6 +2,7 @@
 ./__pycache__/
 img_cartas/__pycache__/
 tests/__pycache__/
+.idea
 
 # Ignorar archivos pyc
 *.pyc
