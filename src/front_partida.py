@@ -201,7 +201,6 @@ def mostrar_opciones_truco(partida):
 def mostrar_opciones_envido(partida, envido_envido_cantado, real_envido_cantado, falta_envido_cantado):
      if partida.envido_actual != None:
         # Botones de envido
-        # draw a rect behin the buttons
         pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
         pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
         render_boton(PARTIDASURF, envido_quiero_button_pos, 'Quiero')
@@ -225,7 +224,9 @@ def mostrar_opciones_envido(partida, envido_envido_cantado, real_envido_cantado,
             render_boton(PARTIDASURF, envido_falta_envido_button_pos, 'Falta Envido', color_boton=GRAY)
         
         fase = partida.envido_actual.fase
-        canto = fase.split("_")[-1].lower()
+
+        canto = "falta envido" if partida.envido_actual.es_falta_envido else fase.split("_")[-1].lower()
+
         message_display(partida.jugador_contrario.personaje + " cantó " + canto, 35, 0)
 
 def text_objects(text, font):
