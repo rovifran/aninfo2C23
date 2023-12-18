@@ -264,7 +264,6 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
     arrastrando_carta = False
     carta_seleccionada_surf = None
     carta_seleccionada = None
-    pos_original = None
 
     se_puede_cantar_truco = True
     se_canto_truco = False
@@ -447,14 +446,11 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         message_display(jugador_actual.personaje + " quiso", 30, sleep_t=1.3, cartel_t=30)
                         partida.aceptar_truco()
                         
-                        #partida.truco_actual = None
-
                     elif truco_no_quiero_button_pos.collidepoint(event.pos):
                         message_display(jugador_actual.personaje + " no quiso", 30, sleep_t=1.3, cartel_t=30)
 
                         puntos = partida.truco_actual.rechazar_truco()
                         jugador_oponente.sumar_puntos(puntos-1)
-                        #partida.truco_actual = None
                         se_canto_truco = False
                         partida.ganador_final_mano = jugador_oponente
                         gano_ronda = True
