@@ -29,7 +29,7 @@ def test_1_envido_con_dos_y_tres_cartas_comunes_de_mismo_palo():
     j2.recibir_cartas([c21, c22, c23])
 
     envido = Envido(j1, j2, ENVIDO, MAX_PUNTOS)
-    resultado = envido.comparar_tantos()
+    resultado = envido._comparar_tantos()
 
     assert(resultado.puntos_ganador == 33)
     assert(resultado.puntos_perdedor == 32)
@@ -56,7 +56,7 @@ def test_2_real_envido_con_cartas_de_distinto_palo():
     j2.recibir_cartas([c21, c22, c23])
 
     envido = Envido(j1, j2, REAL_ENVIDO, MAX_PUNTOS)
-    resultado = envido.comparar_tantos()
+    resultado = envido._comparar_tantos()
 
     assert(resultado.puntos_ganador == 7)
     assert(resultado.puntos_perdedor == 6)
@@ -83,7 +83,7 @@ def test_3_envido_envido_con_cartas_negras():
     j2.recibir_cartas([c21, c22, c23])
 
     envido = Envido(j1, j2, ENVIDO_ENVIDO, MAX_PUNTOS)
-    resultado = envido.comparar_tantos()
+    resultado = envido._comparar_tantos()
     
     assert(resultado.puntos_ganador == 20)
     assert(resultado.puntos_perdedor == 0)
@@ -110,7 +110,7 @@ def test_4_envido_envido_real_envido_con_puntos_iguales_es_parda():
     j2.recibir_cartas([c21, c22, c23])
 
     envido = Envido(j1, j2, ENVIDO_ENVIDO_REAL_ENVIDO, MAX_PUNTOS)
-    resultado = envido.comparar_tantos()
+    resultado = envido._comparar_tantos()
     
     assert(resultado.puntos_ganador == 30)
     assert(resultado.puntos_perdedor == 30)

@@ -1,5 +1,5 @@
 import mazo 
-import envido as env
+import envido
 import cantar_truco as truco
 from mesa import Mesa
 from jugador import Jugador
@@ -101,7 +101,7 @@ class Partida:
         * Si la mano no esta completa, cambia el turno del jugador actual
         * Si la mano esta completa, verifica quien gano la mano para cambiar el turno o no
         """
-
+        
         self.mesa.recibirCarta(self.jugador_actual.jugar_carta(carta), self.jugador_actual)
 
         if not self.mesa.manoActualEstaCompleta():
@@ -132,7 +132,7 @@ class Partida:
         
         if self.jugador_canto_envido == None:
             self.jugador_canto_envido = self.jugador_actual
-            self.envido_actual = env.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido, self.max_puntos)
+            self.envido_actual = envido.Envido(self.jugador_actual, self.jugador_contrario, tipo_envido, self.max_puntos)
             self.cambiar_turno()
 
         else:
@@ -160,7 +160,7 @@ class Partida:
         self.envido_actual = None
         self.jugador_canto_envido = None        
 
-    def aceptar_envido(self) -> env.ResultadoEnvido:
+    def aceptar_envido(self) -> envido.ResultadoEnvido:
         """
         Acepta el envido actual, y devuelve el resultado del envido actual dependiendo de
         quien haya ganado el envido, del jugador que es mano, y si fue falta envido parda 
