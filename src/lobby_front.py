@@ -37,13 +37,15 @@ class Button:
         
         pygame_screen.blit(scaled_img, self.rect)
         # pygame.draw.rect(pygame_screen, self.color, self.rect)
-        font = pygame.font.Font(None, 36)
-        text = font.render(self.text, True, (0,0,0))
+        font = pygame.font.Font(None, 512//5)
+        text = font.render(self.text, True, (49,23,17))
         x = self.rect.x
         y = self.rect.y
         w = self.rect.width
         h = self.rect.height
-        text_rect = pygame.Rect(x + w * 0.2, y + h * 0.2, w * 0.6, h * 0.6)
+        
+        text_rect = pygame.Rect(x + w * 0.2, y + h * 0.1, w * 0.6, h * 0.8)
+        
         pygame_screen.blit(text, text_rect)
 
     def is_clicked(self, pos):
@@ -116,12 +118,14 @@ widgets_for_screen_3 = [
     play_game
 ]
 
-quit_button = Button(100, 100, 200, 50, (255, 0, 0), "Salir" , lambda: (screen.stop(), pygame.quit()))
-popup_button = Button(400, 100, 200, 50, (0, 255, 0), "Jugar", lambda: play_screen(screen, "Enter a number:", 0, lambda x: print(f"You entered {x}")))
+# quit_button = Button(100, 100, 200, 50, (255, 0, 0), "Salir" , lambda: (screen.stop(), pygame.quit()))
+# popup_button = Button(400, 100, 200, 50, (0, 255, 0), "Jugar", lambda: play_screen(screen, "Enter a number:", 0, lambda x: print(f"You entered {x}")))
+popup_button = Button(100, 100, 400, 100, (0, 255, 0), "Jugar", lambda: play_screen(screen, "Enter a number:", 0, lambda x: print(f"You entered {x}")))
+quit_button = Button(100, 250, 400, 100, (255, 0, 0), "Salir" , lambda: (screen.stop(), pygame.quit()))
 widgets_for_screen_1 = [quit_button, popup_button]
 
-hasta_15 = Button(100, 100, 200, 50, (0, 255, 0), "a 15", lambda: (screen.set_amt_points(15), screen.change_widgets(widgets_for_screen_3)))
-hasta_30 = Button(400, 100, 200, 50, (0, 255, 0), "a 30", lambda: (screen.set_amt_points(30), screen.change_widgets(widgets_for_screen_3)))
+hasta_15 = Button(100, 100, 400, 100, (0, 255, 0), "   a 15", lambda: (screen.set_amt_points(15), screen.change_widgets(widgets_for_screen_3)))
+hasta_30 = Button(100, 250, 400, 100, (0, 255, 0), "   a 30", lambda: (screen.set_amt_points(30), screen.change_widgets(widgets_for_screen_3)))
 widgets_for_screen_2 = [hasta_15, hasta_30]
 
 
