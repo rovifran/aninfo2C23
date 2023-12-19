@@ -1,11 +1,14 @@
 import cartas
+
 MAX_PUNTOS = 30
+
 
 class Jugador:
     """
     Clase que representa a un jugador del Truco Argentino.
     Mantiene las cartas que tiene en la mano y los puntos que tiene acumulados.
     """
+
     def __init__(self, personaje):
         self.cartas = []
         self.puntos = 0
@@ -15,12 +18,14 @@ class Jugador:
     """
     Recibe las cartas que le tocan al jugador y las guarda en su mano.
     """
+
     def recibir_cartas(self, cartas):
         self.cartas = cartas
 
     """
     Juega una carta de su mano y la devuelve.
     """
+
     def jugar_carta(self, carta) -> cartas:
         mano = []
         for carta_mano in self.cartas:
@@ -28,21 +33,23 @@ class Jugador:
                 mano.append(carta_mano)
         self.cartas = mano
         return carta
-    
+
     """
     Agrega los puntos al jugador.
     """
+
     def sumar_puntos(self, puntos):
         self.puntos += puntos
         self.puntos = min(self.puntos, MAX_PUNTOS)
-    
+
     """
     Pregunta si el jugador tiene los puntos necesarios para ganar.
     Devuelve True si los tiene, False en caso contrario.
     """
+
     def gano(self, max_puntos) -> bool:
         return self.puntos >= max_puntos
-    
+
     def obtener_puntos(self) -> int:
         return self.puntos
 
@@ -51,6 +58,6 @@ class Jugador:
 
     def __str__(self):
         return self.personaje
-    
+
     def __repr__(self):
         return self.personaje
