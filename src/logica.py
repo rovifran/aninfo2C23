@@ -1,3 +1,4 @@
+import flor
 import mazo 
 import envido
 import cantar_truco as truco
@@ -45,9 +46,11 @@ class Partida:
         self.jugador_contrario = j2
         self.jugador_mano = j2 # para ver cosas como quien gano en el envido si empatan, o si se empardan las 3 manos
         self.jugador_canto_envido = None
+        self.jugador_canto_flor = None
         self.ganador_por_mano = []
         self.envido_actual = None
         self.truco_actual = None
+        self.flor_actual = None
         self.ganador_final_mano = None
         self.max_puntos = max_puntos
         self.mazo = mazo.Mazo()
@@ -139,6 +142,16 @@ class Partida:
             if self.envido_actual.actualizar(tipo_envido):
                 self.cambiar_turno()
 
+    def cantar_flor(self) -> None: 
+        if self.jugador_canto_flor == None:
+            self.jugador_canto_flor = self.jugador_actual
+            self.flor_actual = flor.Flor(self.jugador_actual, self.jugador_contrario)
+            self.cambiar_turno()
+
+        else:
+            self.flor_actual.contraflor()
+            self.cambiar_turno()
+
     def _resetear_envido(self) -> None:
         """
         Resetea el envido actual, usando el atributo `self.jugador_canto_envido` para
@@ -160,6 +173,14 @@ class Partida:
         self.envido_actual = None
         self.jugador_canto_envido = None        
 
+    def _resetear_flor(self) -> None: 
+        if self.jugador_actual != self.jugador_canto_envido:
+            self.cambiar_turno()
+
+        self.flor_actual = None
+        self.jugador_canto_flor = None 
+
+    
     def aceptar_envido(self) -> envido.ResultadoEnvido:
         """
         Acepta el envido actual, y devuelve el resultado del envido actual dependiendo de
@@ -191,6 +212,24 @@ class Partida:
 
         return res_envido
 
+    def aceptar_flor(self) -> flor.ResultadoFlor: 
+        rest_flor = self.flor_actual.aceptar_flor()
+        if rest_flor.ganador == None:
+            if rest_flor.puntos_a_sumar == None:
+                contrincante = self.jugador_contrario if self.jugador_mano == self.jugador_actual else self.jugador_actual
+                self.jugador_mano.sumar_puntos(self.max_puntos - contrincante.obtener_puntos())
+            else:
+                self.jugador_mano.sumar_puntos(rest_flor.puntos_a_sumar)
+                rest_flor.ganador = self.jugador_mano
+                contrincante = self.jugador_contrario if self.jugador_mano == self.jugador_actual else self.jugador_actual
+                rest_flor.perdedor = contrincante
+        else: 
+            rest_flor.ganador.sumar_puntos(rest_flor.puntos_a_sumar)
+
+        self._resetear_flor()
+
+        return rest_flor
+        
     def rechazar_envido(self) -> None:
         """
         Rechaza el envido actual, y suma los puntos correspondientes al jugador contrario.
@@ -209,6 +248,12 @@ class Partida:
         puntos = self.envido_actual.rechazar_envido()
         self.jugador_contrario.sumar_puntos(puntos)
         self._resetear_envido()
+    
+    def rechazar_flor(self) -> None: 
+        puntos = self.flor_actual.rechazar_flor()
+        self.jugador_contrario.sumar_puntos(puntos)
+        self._resetear_flor()
+        return puntos
 
     def cantar_truco(self, tipo_truco: str) -> None:
         """

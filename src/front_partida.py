@@ -229,6 +229,22 @@ def mostrar_opciones_envido(partida, envido_envido_cantado, real_envido_cantado,
 
         message_display(partida.jugador_contrario.personaje + " cantó " + canto, 35, 0)
 
+def mostrar_opciones_flor(partida):
+    if partida.flor_actual != None: 
+        pygame.draw.rect(PARTIDASURF, BLUE, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), border_radius=10)
+        pygame.draw.rect(PARTIDASURF, BLACK, (SCREEN_WIDTH/2 - BUTTON_WIDTH/2 - 2*BUTTON_WIDTH -10,SCREEN_HEIGHT/25 + 10-10, BUTTON_WIDTH*5+20, BUTTON_HEIGHT+20), 3, 10)
+        
+        render_boton(PARTIDASURF, flor_quiero_button_pos, 'Quiero')
+        render_boton(PARTIDASURF, flor_no_quiero_button_pos, 'No Quiero')
+        render_boton(PARTIDASURF, contraflor_quiero_button_pos, 'Contra Flor')
+        
+        fase = partida.flor_actual.obtener_fase()
+        
+        if fase == "Contra Flor":
+            render_boton(PARTIDASURF, contraflor_quiero_button_pos, 'Contra Flor', color_boton=GRAY)
+            
+        message_display(partida.jugador_contrario.personaje + " canto " + fase, 35, 0)
+
 def text_objects(text, font):
     textSurface = font.render(text, True, BLACK)
     return textSurface, textSurface.get_rect()
@@ -271,6 +287,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
     se_puede_cantar_tantos = True
     envido_cantado = False
+    flor_cantada = False
     envido_envido_cantado = False
     real_envido_cantado = False
     falta_envido_cantado = False
@@ -351,7 +368,9 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
             mostrar_cartel_turno(jugador_actual)
 
             mostrar_opciones_envido(partida, envido_envido_cantado, real_envido_cantado, falta_envido_cantado)
-
+            
+            mostrar_opciones_flor(partida)
+            
             if se_canto_truco:
                 mostrar_opciones_truco(partida)
 
@@ -390,7 +409,9 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     partida.cantar_envido("FALTAENVIDO")
 
                 elif flor_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado:
-                    webbrowser.open('https://youtu.be/vdfCUkJRfxg')
+                    flor_cantada = True 
+                    partida.cantar_flor()
+                    #webbrowser.open('https://youtu.be/vdfCUkJRfxg')
                 
                 elif mazo_button_pos.collidepoint(event.pos):
                     message_display(jugador_actual.personaje + " se fue al mazo", 30, sleep_t=1.3, cartel_t=30)
@@ -403,7 +424,21 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
                     
                     return
+                # Check botones flor 
+                if se_puede_cantar_tantos and flor_cantada: 
+                    if flor_quiero_button_pos.collidepoint(event.pos) and partida.flor_actual != None: 
+                        res = partida.aceptar_flor() 
+                        se_puede_cantar_tantos = False
+                        message_display("Gano la flor " + res.ganador.personaje + " con " + str(res.puntos_ganador) + " puntos", 20, sleep_t=1.3, cartel_t=30)
+                        message_display("Perdio la flor " + res.perdedor.personaje + " con " + str(res.puntos_perdedor) + " puntos", 20, sleep_t=1.3, cartel_t=30)
+                    elif flor_no_quiero_button_pos.collidepoint(event.pos) and partida.flor_actual != None: 
+                        se_puede_cantar_tantos = False 
+                        puntos = partida.rechazar_flor() 
+                        message_display(jugador_actual.personaje + " no quiso flor", 30, sleep_t=1.3, cartel_t=30)
                     
+                    elif contraflor_quiero_button_pos.collidepoint(event.pos) and partida.flor_actual != None and partida.flor_actual.obtener_fase() != "Contra Flor": 
+                        partida.cantar_flor() 
+                        
                 # Check botones de envido
                 if se_puede_cantar_tantos and envido_cantado:
                     if envido_quiero_button_pos.collidepoint(event.pos) and partida.envido_actual != None:
@@ -505,7 +540,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
 
 
                         if p2 == jugador_actual:
-                            se_puede_cantar_envido = False
+                            se_puede_cantar_tantos = False
                         
                         reiniciar_pos_carta(carta_seleccionada_surf)
                                   
