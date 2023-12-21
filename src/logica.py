@@ -143,6 +143,16 @@ class Partida:
                 self.cambiar_turno()
 
     def cantar_flor(self) -> None: 
+        """
+        Canta flor. Si no hay flor en curso, se inicia 
+        una instancia de flor. Si ya hay flor en curso 
+        se cambia la fase a Contra Flor.
+        
+        Post: 
+        * Se inicia una fase de flor se no hay ninguna inicia o
+        se cambia a contra flor si ya hay una inicia 
+        * Se cambia el turno de los jugadores 
+        """
         if self.jugador_canto_flor == None:
             self.jugador_canto_flor = self.jugador_actual
             self.flor_actual = flor.Flor(self.jugador_actual, self.jugador_contrario)
@@ -174,7 +184,14 @@ class Partida:
         self.jugador_canto_envido = None        
 
     def _resetear_flor(self) -> None: 
-        if self.jugador_actual != self.jugador_canto_envido:
+        """
+        Se reseta la flor actual
+        
+        Post: 
+        * Se reseta `flor_actual` 
+        * Se resetea `jugador_canto_flor`
+        """
+        if self.jugador_actual != self.jugador_canto_flor:
             self.cambiar_turno()
 
         self.flor_actual = None
@@ -213,8 +230,21 @@ class Partida:
         return res_envido
 
     def aceptar_flor(self) -> flor.ResultadoFlor: 
+        """
+        Acepta la flor en curso y suma los puntos al ganador pertinente. 
+        Ademas resetea la flor en curso
+        
+        Pre: 
+        * Tiene que haber una flor en curso 
+        
+        Post: 
+        * Devueve el resultado de la flor 
+        * Se suman los puntos al ganador 
+        * Se resetea la flor actual 
+        """
         rest_flor = self.flor_actual.aceptar_flor()
         if rest_flor.ganador == None:
+            #Caso empate
             if rest_flor.puntos_a_sumar == None:
                 contrincante = self.jugador_contrario if self.jugador_mano == self.jugador_actual else self.jugador_actual
                 self.jugador_mano.sumar_puntos(self.max_puntos - contrincante.obtener_puntos())
@@ -250,6 +280,16 @@ class Partida:
         self._resetear_envido()
     
     def rechazar_flor(self) -> None: 
+        """
+        Rechaza la flor actual. Suma los puntos al jugador al cual 
+        rechazaron la flor. Y se hace un reseteo de la flor.  
+        
+        Pre: 
+        * Tiene que haber una flor en juego 
+        
+        Post: 
+        * Se devuelve los puntos que gano el jugador al cual rechazaron la flor
+        """
         puntos = self.flor_actual.rechazar_flor()
         self.jugador_contrario.sumar_puntos(puntos)
         self._resetear_flor()
