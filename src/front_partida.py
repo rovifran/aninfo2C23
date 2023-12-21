@@ -504,8 +504,8 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         partida.jugar_carta(carta_seleccionada)
 
 
-                        if p2 == jugador_actual:
-                            se_puede_cantar_envido = False
+                        if no_es_primera_ronda(p2, jugador_actual):
+                            se_puede_cantar_tantos = False
                         
                         reiniciar_pos_carta(carta_seleccionada_surf)
                                   
@@ -523,6 +523,9 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 carta_seleccionada_surf.center = (pygame.mouse.get_pos()[0] - offset_x, pygame.mouse.get_pos()[1] - offset_y)
                
         pygame.display.update()
+
+def no_es_primera_ronda(p2, jugador_actual):
+    return p2 == jugador_actual
 
 
 
