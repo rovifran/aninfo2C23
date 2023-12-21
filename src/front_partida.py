@@ -274,7 +274,8 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
     envido_envido_cantado = False
     real_envido_cantado = False
     falta_envido_cantado = False
-
+    hay_evento_en_curso = False
+    
     riedel_juega_por_primera_vez = True
 
     truco_etapas = ["VALE_CUATRO", "RETRUCO", "TRUCO"]
@@ -316,6 +317,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
             envido_envido_cantado = False
             real_envido_cantado = False
             falta_envido_cantado = False
+            hay_evento_en_curso = False 
 
             truco_etapas = ["VALE_CUATRO", "RETRUCO", "TRUCO"]
 
@@ -360,7 +362,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 card_down_sound.play()
                 
                 # Check si toco boton
-                if truco_button_pos.collidepoint(event.pos) and se_puede_cantar_truco and jugador_actual.canto_truco_actual != "-":
+                if truco_button_pos.collidepoint(event.pos) and se_puede_cantar_truco and jugador_actual.canto_truco_actual != "-" and not hay_evento_en_curso:
                     truco_a_llamar = truco_etapas.pop()
 
                     if truco_etapas == []:
@@ -374,25 +376,29 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     partida.cantar_truco(truco_a_llamar)
                     se_canto_truco  = True
                     se_puede_cantar_tantos = False
+                    hay_evento_en_curso = True
 
-                elif envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envido_cantado and not envido_envido_cantado:
+                elif envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envido_cantado and not envido_envido_cantado and not hay_evento_en_curso:
                     envido_cantado = True
+                    hay_evento_en_curso = True
                     partida.cantar_envido("ENVIDO")
                 
-                elif real_envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envido_cantado:
+                elif real_envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not real_envido_cantado and not hay_evento_en_curso:
                     envido_cantado = True
                     real_envido_cantado = True
+                    hay_evento_en_curso = True
                     partida.cantar_envido("REALENVIDO")
 
-                elif falta_envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado:
+                elif falta_envido_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not hay_evento_en_curso:
                     envido_cantado = True
                     falta_envido_cantado = True
+                    hay_evento_en_curso = True
                     partida.cantar_envido("FALTAENVIDO")
 
-                elif flor_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado:
+                elif flor_button_pos.collidepoint(event.pos) and se_puede_cantar_tantos and not falta_envido_cantado and not hay_evento_en_curso:
                     webbrowser.open('https://youtu.be/vdfCUkJRfxg')
                 
-                elif mazo_button_pos.collidepoint(event.pos):
+                elif mazo_button_pos.collidepoint(event.pos) and not hay_evento_en_curso:
                     message_display(jugador_actual.personaje + " se fue al mazo", 30, sleep_t=1.3, cartel_t=30)
                     if partida.truco_actual != None:
                         partida.truco_actual.aceptar_truco()
@@ -411,8 +417,10 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         se_puede_cantar_tantos = False
                         message_display("Gano el envido " + res.ganador.personaje + " con " + str(res.puntos_ganador) + " puntos", 20, sleep_t=1.3, cartel_t=30)
                         message_display("Perdio el envido " + res.perdedor.personaje + " con " + str(res.puntos_perdedor) + " puntos", 20, sleep_t=1.3, cartel_t=30)
-
+                        hay_evento_en_curso = False
+                        
                     elif envido_no_quiero_button_pos.collidepoint(event.pos) and partida.envido_actual != None:
+                        hay_evento_en_curso = False
                         puntos = partida.envido_actual.rechazar_envido()
                         jugador_oponente.sumar_puntos(puntos)
                         se_puede_cantar_tantos = False
@@ -446,6 +454,8 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         jugador_oponente.canto_truco_actual = "-"
                         message_display(jugador_actual.personaje + " quiso", 30, sleep_t=1.3, cartel_t=30)
                         partida.aceptar_truco()
+                        hay_evento_en_curso = False
+                        
                         
                     elif truco_no_quiero_button_pos.collidepoint(event.pos):
                         message_display(jugador_actual.personaje + " no quiso", 30, sleep_t=1.3, cartel_t=30)
@@ -455,6 +465,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         se_canto_truco = False
                         partida.ganador_final_mano = jugador_oponente
                         gano_ronda = True
+                        hay_evento_en_curso = False 
                     
                     elif truco_re_truco_button_pos.collidepoint(event.pos) and jugador_actual.canto_truco_actual == "RETRUCO":
                         truco_etapas.pop()
@@ -485,7 +496,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                         carta_seleccionada = jugador_actual.cartas[i]
                        
                 
-            elif event.type == pygame.MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP and not hay_evento_en_curso:
                 if not carta_seleccionada_surf: 
                     continue
                 
@@ -519,7 +530,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     carta_seleccionada_surf = None
                     carta_seleccionada = None
                 
-            elif event.type == pygame.MOUSEMOTION and arrastrando_carta:
+            elif event.type == pygame.MOUSEMOTION and arrastrando_carta and not hay_evento_en_curso:
                 carta_seleccionada_surf.center = (pygame.mouse.get_pos()[0] - offset_x, pygame.mouse.get_pos()[1] - offset_y)
                
         pygame.display.update()
