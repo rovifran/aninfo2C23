@@ -63,6 +63,8 @@ flor_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 +
 mazo_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 250, BUTTON_WIDTH, BUTTON_HEIGHT)
 salir_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 300, BUTTON_WIDTH, BUTTON_HEIGHT)
 
+volver_al_menu_button_pos = pygame.Rect(SCREEN_WIDTH*(1-1/5) - 10, SCREEN_HEIGHT/25 + 10 + 350, BUTTON_WIDTH, BUTTON_HEIGHT)
+
 turno_actual_cartel = pygame.Rect(SCREEN_WIDTH/25, SCREEN_HEIGHT - BUTTON_HEIGHT, BUTTON_WIDTH*1.6, BUTTON_HEIGHT)
 
 # Botones Envido

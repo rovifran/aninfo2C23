@@ -70,6 +70,7 @@ class Screen:
         return self.running
 
     def stop(self):
+        print("dejo de correrse")
         self.running = False
 
     def click(self, event_pos):
@@ -79,7 +80,6 @@ class Screen:
 
     def display(self):
         self.pygame_screen.blit(fondo, (0, 0))
-
         for widget in self.widgets:
             widget.draw(self.pygame_screen)
         pygame.display.flip()
@@ -117,6 +117,8 @@ widgets_for_screen_3 = [
     play_game
 ]
 
+
+
 popup_button = Button(100, 100, 400, 100, (0, 255, 0), "Jugar", lambda: play_screen(screen))
 quit_button = Button(100, 250, 400, 100, (255, 0, 0), "Salir" , lambda: (screen.stop(), pygame.quit()))
 widgets_for_screen_1 = [quit_button, popup_button]
@@ -128,27 +130,37 @@ widgets_for_screen_2 = [hasta_15, hasta_30]
 
 screen = Screen(widgets_for_screen_1)
 
+def return_to_menu():
+    screen.change_widgets(widgets_for_screen_2)
+    truco_music.stop()
+    screen.starting = False
+    screen.running = True
+    screen.display()
+    
+
 
 def play_screen(screen):
     screen.change_widgets(widgets_for_screen_2)
 
 
-
 def lobby_main():
-    lobby_music.play()
-    while screen.is_running():
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                return
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                screen.click(event.pos)
-        if screen.is_running():
-            screen.display()
+    while True:
+        lobby_music.play()
+        while screen.is_running():
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    return
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    screen.click(event.pos)
+            if screen.is_running():
+                screen.display()
 
-    if (screen.starting == True):
-        lobby_music.stop()
-        screen.lobby.iniciar_partida()
+        if (screen.starting == True):
+            lobby_music.stop()
+            screen.lobby.iniciar_partida()
+
+        
 
 
 

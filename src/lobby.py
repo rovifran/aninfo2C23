@@ -41,7 +41,7 @@ class Lobby():
         """
         if puntos not in [15, 30]: raise PuntosInvalidosError("Los puntos deben ser 15 o 30")
         self.puntos = puntos
-
+        
     def iniciar_partida(self) -> None:
         """
         Inicia una partida con los parametros seleccionados, para ello llama a una instancia

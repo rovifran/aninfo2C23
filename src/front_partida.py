@@ -161,6 +161,7 @@ def botones_display(truco_actual, se_puede_cantar_truco, se_puede_cantar_tantos,
 
     render_boton(PARTIDASURF, mazo_button_pos, 'Mazo')
     render_boton(PARTIDASURF, salir_button_pos, 'Salir')
+    render_boton(PARTIDASURF, volver_al_menu_button_pos, 'Volver al menu')
 
 def mostrar_cartel_turno(jugador_actual):
     pygame.draw.rect(PARTIDASURF, WHITE, turno_actual_cartel, border_radius=10)
@@ -286,8 +287,10 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
     }
     
     truco_music.play(50)
-
+    romper_while = False
     while True:
+        if romper_while:
+            break
         ganador = check_ganador(partida)
         if gano == True or ganador != None:
             puntos_display(p1, p2)
@@ -401,8 +404,15 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     gano_ronda = True
                 elif salir_button_pos.collidepoint(event.pos):
                     webbrowser.open('https://youtu.be/uHgt8giw1LY')
-                    
-                    return
+                elif volver_al_menu_button_pos.collidepoint(event.pos):
+                    #volver al menu principal
+                    #change screen to main menu
+                    #salir del loop del juego
+                    #como lo hago?
+                    from lobby_front import return_to_menu
+                    return_to_menu()
+                    romper_while = True
+                    break
                     
                 # Check botones de envido
                 if se_puede_cantar_tantos and envido_cantado:
@@ -523,6 +533,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                 carta_seleccionada_surf.center = (pygame.mouse.get_pos()[0] - offset_x, pygame.mouse.get_pos()[1] - offset_y)
                
         pygame.display.update()
+    
 
 
 
