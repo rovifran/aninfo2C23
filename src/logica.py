@@ -210,7 +210,7 @@ class Partida:
         self.jugador_contrario.sumar_puntos(puntos)
         self._resetear_envido()
 
-    def cantar_truco(self, tipo_truco: str) -> None:
+    def cantar_truco(self, tipo_truco: str, jugador: Jugador = None) -> None:
         """
         Canta el truco, creando el objeto que representa el truco actual, y
         cambiando el turno del jugador actual. Si el jugador actual ya canto el truco,
@@ -229,7 +229,7 @@ class Partida:
         if not self.truco_actual:
             self.truco_actual = truco.Truco(tipo_truco, self.jugador_actual)
         else:
-            self.truco_actual.actualizar(tipo_truco)
+            self.truco_actual.actualizar(tipo_truco, jugador)
         
         self.cambiar_turno()
 

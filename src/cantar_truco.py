@@ -31,7 +31,10 @@ class Truco:
         self.aceptado = False
         return self.calcular_puntos()
 
-    def actualizar(self, fase: str) -> None:
+    def actualizar(self, fase: str, jugador = None) -> None:
+        if jugador: 
+            self.canto_truco = jugador
+            
         self.fase_anterior = self.fase
         self.fase = fase
 

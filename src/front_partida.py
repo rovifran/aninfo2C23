@@ -371,7 +371,7 @@ def init_partida(nombre_p1, nombre_p2, max_puntos):
                     jugador_actual.canto_truco_actual = "-"
                     
 
-                    partida.cantar_truco(truco_a_llamar)
+                    partida.cantar_truco(truco_a_llamar, jugador_actual)
                     se_canto_truco  = True
                     se_puede_cantar_tantos = False
 
